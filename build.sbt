@@ -17,10 +17,17 @@ libraryDependencies ++= {
     "io.spray"            %   "spray-can"     % sprayV,
     "io.spray"            %   "spray-routing" % sprayV,
     "io.spray"            %   "spray-testkit" % sprayV,
+    "io.spray"            %%  "spray-json"    % "1.2.5",
+    "org.json4s"          %%  "json4s-native" % "3.2.2",
     "com.typesafe.akka"   %%  "akka-actor"    % akkaV,
     "com.typesafe.akka"   %%  "akka-testkit"  % akkaV,
     "org.specs2"          %%  "specs2"        % "2.2.3" % "test"
   )
 }
+
+
+ideaExcludeFolders += ".idea"
+
+ideaExcludeFolders += ".idea_modules"
 
 seq(Revolver.settings: _*)
