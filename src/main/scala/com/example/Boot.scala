@@ -10,8 +10,8 @@ object Boot extends App {
   implicit val system = ActorSystem("on-spray-can")
 
   // create and start our service actor
-  val service = system.actorOf(Props[SportServiceActor], "demo-service")
+  val currantService = system.actorOf(Props[CurrantRouteActor], "service")
 
   // start a new HTTP server on port 8080 with our service actor as the handler
-  IO(Http) ! Http.Bind(service, interface = "localhost", port = 8080)
+  IO(Http) ! Http.Bind(currantService, interface = "localhost", port = 8080)
 }
