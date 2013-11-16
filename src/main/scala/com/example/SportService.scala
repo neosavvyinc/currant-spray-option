@@ -55,7 +55,7 @@ trait SportService extends HttpService {
     ))
 
   val sportRoute =
-    path("sports") {
+    pathPrefix("sports") {
       get {
         respondWithMediaType(`application/json`) {
           complete {
@@ -63,8 +63,9 @@ trait SportService extends HttpService {
           }
         }
       } ~
-      post {
-        respondWithMediaType(`application/json`) {
+      path("new") {
+        post {
+          respondWithMediaType(`application/json`) {
             entity(as[String]) { sport =>
               complete {
                 System.out.println(sport);
@@ -73,7 +74,26 @@ trait SportService extends HttpService {
                 StatusCodes.OK
               }
             }
+          }
         }
+      } ~
+      path(IntNumber) { id =>
+        get {
+          respondWithMediaType(`application/json`) {
+            complete {
+              swrite(sports.filter(x => x.id != id));
+            }
+          }
+        } ~
+        delete {
+          respondWithMediaType(`application/json`) {
+            complete {
+              sports = sports.filter(x => x.id != id)
+              StatusCodes.OK
+            }
+          }
+        }
+
       }
     }
 }
