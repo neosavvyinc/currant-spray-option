@@ -62,13 +62,15 @@ trait SportService extends HttpService {
             swrite(sports);
           }
         }
-      }
+      } ~
       post {
         respondWithMediaType(`application/json`) {
             entity(as[String]) { sport =>
               complete {
-//                sports :+ sport;
-                "Nifty"
+                System.out.println(sport);
+                val sportObj = read[Sport](sport)
+                sports = sports :+ sportObj
+                StatusCodes.OK
               }
             }
         }
