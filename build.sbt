@@ -1,3 +1,8 @@
+import de.johoop.jacoco4sbt._
+import JacocoPlugin._
+
+jacoco.settings
+
 organization  := "com.example"
 
 version       := "0.1"
@@ -32,3 +37,5 @@ ideaExcludeFolders += ".idea"
 ideaExcludeFolders += ".idea_modules"
 
 seq(Revolver.settings: _*)
+
+

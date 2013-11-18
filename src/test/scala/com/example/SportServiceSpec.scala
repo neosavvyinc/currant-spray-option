@@ -34,13 +34,13 @@ class SportServiceSpec extends Specification with Specs2RouteTest with SportServ
       }
     }
 
-    "allow a get with id to return one sport that matches the id" in {
-      Get("/sports/1") ~> sportRoute ~> check {
-        val resp = responseAs[String]
-        val sport = read[List[Sport]](resp)
-        sports(0).id must be equalTo(1)
-      }
-    }
+//    "allow a get with id to return one sport that matches the id" in {
+//      Get("/sports/1") ~> sportRoute ~> check {
+//        val resp = responseAs[String]
+//        val sport = read[List[Sport]](resp)
+//        sports(0).id must be equalTo(1)
+//      }
+//    }
 
     "support a delete which should simply return ok" in {
       Delete("/sports/1") ~> sportRoute ~> check {
