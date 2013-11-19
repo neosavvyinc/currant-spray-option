@@ -61,7 +61,6 @@ object Build extends sbt.Build {
 object Shared {
 
   val JooqVersion = "3.1.0"
-  val UnfilteredVersion = "0.7.1"
   val AkkaVersion = "2.1.4"
   val SprayVersion = "1.1-RC3"
   val Json4sVersion = "3.2.2"

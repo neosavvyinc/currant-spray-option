@@ -8,8 +8,6 @@ trait DSConfiguration {
   lazy val cfg = ConfigFactory.load().getConfig("com.currant.ds")
 
   object DBConfig {
-
-
     private val db = cfg.getConfig("db")
     def userName : String = db.getString("user")
     def password : String = db.getString("password")
