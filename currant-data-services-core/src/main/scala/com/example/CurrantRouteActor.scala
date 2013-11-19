@@ -1,7 +1,8 @@
 package com.example
 
-import akka.actor.Actor
+import akka.actor.{Props, Actor}
 import org.json4s.{NoTypeHints, native}
+import com.currant.ds.db.DB
 
 /**
  * Created by Neosavvy
@@ -10,7 +11,8 @@ import org.json4s.{NoTypeHints, native}
  * Date: 11/16/13
  * Time: 4:53 PM
  */
-class CurrantRouteActor extends Actor with GameService with SportService {
+
+class CurrantRouteActor(val db : DB) extends Actor with GameService with SportService {
   // the HttpService trait defines only one abstract member, which
   // connects the services environment to the enclosing actor or test
   def actorRefFactory = context

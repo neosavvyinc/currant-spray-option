@@ -39,7 +39,7 @@ object Build extends sbt.Build {
     lazy val core =
       project(id = "currant-data-services-core",
               base = file("currant-data-services-core"),
-              settings = Seq(libraryDependencies ++= Shared.Spray ++ Shared.Akka ++Shared.Json4s) ++ Revolver.settings
+              settings = Seq(libraryDependencies ++= Shared.Spray ++ Shared.Akka ++Shared.Json4s ++ Shared.BoneCP) ++ Revolver.settings
              ) dependsOn schema
 
     def project(id: String, base: File, settings: Seq[Def.Setting[_]] = Nil) =
@@ -90,10 +90,14 @@ object Shared {
 
   val PostgreSQL = "postgresql" % "postgresql" % "9.1-901.jdbc4"
 
+  val BoneCP = Seq("com.jolbox" % "bonecp" % "0.8.0.RELEASE")
+
 
   val testDeps = Seq(
     "org.specs2"          %%  "specs2"        % "2.2.3" % "test"
   )
+
+
 
   val settings = Seq(
     organization := "com.currant",

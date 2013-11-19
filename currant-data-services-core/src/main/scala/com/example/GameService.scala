@@ -1,16 +1,12 @@
 package com.example
 
-import akka.actor.Actor
 import spray.routing._
 import spray.http._
-import spray.httpx.encoding._
 import MediaTypes._
-import com.currant.model.{Game, Sport}
+import com.currant.model.Game
 import org.json4s.native.Serialization.{read, write => swrite}
 
 import org.json4s._
-import org.json4s.native.JsonMethods._
-import org.json4s.JsonDSL._
 
 // this trait defines our service behavior independently from the service actor
 trait GameService extends HttpService {
