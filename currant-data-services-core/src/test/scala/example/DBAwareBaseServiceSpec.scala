@@ -75,7 +75,7 @@ class DBAwareBaseServiceSpec extends Specification with DSConfiguration with Spe
     val conn = bcp.getConnection
     val rs : ResultSet = conn.createStatement.executeQuery(sql)
     rs.next()
-    return rs.getInt("count");
+    rs.getInt("count")
   }
 
 }

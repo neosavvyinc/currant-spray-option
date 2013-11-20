@@ -12,7 +12,7 @@ import com.jolbox.bonecp.{BoneCP, BoneCPConfig}
 import example.DBAwareBaseServiceSpec
 
 
-class SportServiceSpec extends DBAwareBaseServiceSpec with SportService{
+class SportServiceSpec extends DBAwareBaseServiceSpec with SportService {
 
   "SportService" should {
     "support inserting a new sport" in {
