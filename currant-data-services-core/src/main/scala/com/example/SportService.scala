@@ -28,8 +28,8 @@ trait SportService extends DataHttpService {
         respondWithMediaType(`application/json`) {
           entity(as[String]) { sport =>
             complete {
-              val sportObj = read[SportCreateRequest](sport)
-              swrite(sportDataService.create(sportObj))
+              val sportObj = read[Sport](sport)
+              swrite(sportDataService.update(sportObj))
             }
           }
         }
@@ -38,8 +38,8 @@ trait SportService extends DataHttpService {
         respondWithMediaType(`application/json`) {
           entity(as[String]) { sport =>
             complete {
-              val sportObj = read[Sport](sport)
-              swrite(sportDataService.update(sportObj))
+              val sportObj = read[SportCreateRequest](sport)
+              swrite(sportDataService.create(sportObj))
             }
           }
         }

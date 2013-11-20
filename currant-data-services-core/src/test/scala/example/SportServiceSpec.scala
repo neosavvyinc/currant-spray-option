@@ -1,18 +1,44 @@
 package com.example
 
-import org.specs2.mutable.Specification
+import org.specs2.mutable.{Around, Specification}
+import org.specs2.specification.{BeforeExample, Scope}
+
 import spray.testkit.Specs2RouteTest
 import com.currant.model._
 import org.json4s.native.Serialization.{read, write => swrite}
 import com.currant.ds.DSConfiguration
 import com.currant.ds.db.DB
 import com.jolbox.bonecp.{BoneCP, BoneCPConfig}
+import org.specs2.execute.AsResult
 
-class SportServiceSpec extends Specification with DSConfiguration with Specs2RouteTest with SportService {
+
+
+class SportServiceSpec extends Specification with DSConfiguration with Specs2RouteTest with SportService with BeforeExample {
   def actorRefFactory = system
+
+  def before = {
+    println("Cleaning the db")
+  }
 
   
   "SportService" should {
+
+    "support inserting a new sport" in {
+      Post("/sports", swrite(new Sport(
+        1L,
+        "New Sport",
+        "Meh just something lame",
+        true,
+        None,
+        None,
+        None,
+        None
+      ))) ~> sportRoute ~> check {
+        val resp = responseAs[String]
+        resp must be equalTo("OK")
+      }
+    }.pendingUntilFixed("This is broken until we fix the db problem")
+
 
     "return a list of two sports baseball and soccer" in {
       Get("/sports") ~> sportRoute ~> check {
@@ -44,15 +70,15 @@ class SportServiceSpec extends Specification with DSConfiguration with Specs2Rou
         val resp = responseAs[String]
         resp must be equalTo("OK")
       }
-    }
+    }.pendingUntilFixed("This is broken until we fix the db problem")
 
-    //    "allow a get with id to return one sport that matches the id" in {
-    //      Get("/sports/1") ~> sportRoute ~> check {
-    //        val resp = responseAs[String]
-    //        val sport = read[List[Sport]](resp)
-    //        sports(0).id must be equalTo(1)
-    //      }
-    //    }
+    "allow a get with id to return one sport that matches the id" in {
+      Get("/sports/1") ~> sportRoute ~> check {
+        val resp = responseAs[String]
+        val sport = read[List[Sport]](resp)
+        sport(0).id must be equalTo(1)
+      }
+    }.pendingUntilFixed("This is broken until we fix the db problem")
 
     "support a delete which should simply return ok" in {
       Delete("/sports/1") ~> sportRoute ~> check {
