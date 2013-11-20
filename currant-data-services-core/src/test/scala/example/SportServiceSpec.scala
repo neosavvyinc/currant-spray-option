@@ -42,12 +42,24 @@ class SportServiceSpec extends Specification with DSConfiguration with Specs2Rou
 
     conn.setAutoCommit(false)
     val st = conn.createStatement()
-    val resource = io.Source.fromURL(getClass.getResource("/ddl.sql")).getLines
+    val resource = io.Source.fromURL(getClass.getResource("/dropddl.sql")).getLines
     while(resource.hasNext) {
-      st.addBatch(resource.next)
+      val nextLine = resource.next
+      st.addBatch(nextLine)
     }
     st.executeBatch()
     conn.commit()
+
+    val st1 = conn.createStatement()
+    val resource1 = io.Source.fromURL(getClass.getResource("/ddl.sql")).getLines
+    while(resource1.hasNext) {
+      val nextLine = resource1.next
+      st1.addBatch(nextLine)
+    }
+
+    st1.executeBatch()
+    conn.commit()
+
     conn.setAutoCommit(true)
 
   }
@@ -66,6 +78,9 @@ class SportServiceSpec extends Specification with DSConfiguration with Specs2Rou
         None,
         None
       ))) ~> sportRoute ~> check {
+
+        println("This should run last....")
+
         val resp = responseAs[String]
         resp must be equalTo("OK")
       }
