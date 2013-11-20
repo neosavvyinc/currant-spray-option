@@ -51,6 +51,7 @@ object Build extends sbt.Build {
                 releaseSettings ++
                 settings ++
                 Seq(
+                  resolvers += "spray" at "http://repo.spray.io/",
                   libraryDependencies ++= Shared.testDeps ++ Seq(Shared.PostgreSQL)
                 )).settings(Defaults.itSettings:_*).configs(IntegrationTest)
 
