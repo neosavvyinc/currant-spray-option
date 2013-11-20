@@ -16,7 +16,7 @@ class SportServiceSpec extends DBAwareBaseServiceSpec with SportService{
 
   "SportService" should {
     "support inserting a new sport" in {
-      Post("/sports", swrite(new Sport(
+      val testSport: Sport = new Sport(
         1L,
         "New Sport",
         "Meh just something lame",
@@ -25,11 +25,13 @@ class SportServiceSpec extends DBAwareBaseServiceSpec with SportService{
         None,
         None,
         None
-      ))) ~> sportRoute ~> check {
+      )
+      Post("/sports", swrite(testSport)) ~> sportRoute ~> check {
         val resp = responseAs[String]
-        resp must be equalTo("OK")
+        resp must be equalTo(swrite(testSport))
       }
-    }.pendingUntilFixed("This is broken until we fix the db problem")
+      executeCountForTable("SPORT") must be equalTo(1)
+    }
 
     "return a list of two sports baseball and soccer" in {
       Get("/sports") ~> sportRoute ~> check {
