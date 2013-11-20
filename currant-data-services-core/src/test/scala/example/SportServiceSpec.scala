@@ -11,9 +11,6 @@ import com.jolbox.bonecp.{BoneCP, BoneCPConfig}
 class SportServiceSpec extends Specification with DSConfiguration with Specs2RouteTest with SportService {
   def actorRefFactory = system
 
-
-
-
   
   "SportService" should {
 
@@ -34,7 +31,7 @@ class SportServiceSpec extends Specification with DSConfiguration with Specs2Rou
     }
 
     "allow a new sport parameter to be posted in" in {
-      Post("/sports/new", swrite(new Sport(
+      Put("/sports", swrite(new Sport(
         1L,
         "New Sport",
         "Meh just something lame",
