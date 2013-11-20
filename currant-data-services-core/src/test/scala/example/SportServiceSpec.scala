@@ -28,45 +28,35 @@ class SportServiceSpec extends Specification with DSConfiguration with Specs2Rou
   }
 
   def before = {
-    sequential
-
-    println("Cleaning the db")
-    println("Using user: " + DBConfig.userName)
-
+    println("Cleaning the db...")
+    
     val bcpCfg = new BoneCPConfig()
     bcpCfg.setUser(DBConfig.userName)
     bcpCfg.setPassword(DBConfig.password)
     bcpCfg.setJdbcUrl(DBConfig.url)
     val bcp = new BoneCP(bcpCfg)
-    val conn = bcp.getConnection
+    
+    def executeDDL(ddl: String) {
+      val conn = bcp.getConnection
 
-    conn.setAutoCommit(false)
-    val st = conn.createStatement()
-    val resource = io.Source.fromURL(getClass.getResource("/dropddl.sql")).getLines
-    while(resource.hasNext) {
-      val nextLine = resource.next
-      st.addBatch(nextLine)
+      conn.setAutoCommit(false)
+      val st = conn.createStatement()
+      val resource = io.Source.fromURL(getClass.getResource(ddl)).getLines
+      while (resource.hasNext) {
+        val nextLine = resource.next
+        st.addBatch(nextLine)
+      }
+      st.executeBatch()
+      conn.commit()
+      conn.setAutoCommit(true)
     }
-    st.executeBatch()
-    conn.commit()
-
-    val st1 = conn.createStatement()
-    val resource1 = io.Source.fromURL(getClass.getResource("/ddl.sql")).getLines
-    while(resource1.hasNext) {
-      val nextLine = resource1.next
-      st1.addBatch(nextLine)
-    }
-
-    st1.executeBatch()
-    conn.commit()
-
-    conn.setAutoCommit(true)
-
+    
+    executeDDL("/dropddl.sql")
+    executeDDL("/ddl.sql")
   }
 
   
   "SportService" should {
-
     "support inserting a new sport" in {
       Post("/sports", swrite(new Sport(
         1L,
@@ -78,9 +68,6 @@ class SportServiceSpec extends Specification with DSConfiguration with Specs2Rou
         None,
         None
       ))) ~> sportRoute ~> check {
-
-        println("This should run last....")
-
         val resp = responseAs[String]
         resp must be equalTo("OK")
       }
