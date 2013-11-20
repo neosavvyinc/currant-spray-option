@@ -9,15 +9,47 @@ import org.json4s.native.Serialization.{read, write => swrite}
 import com.currant.ds.DSConfiguration
 import com.currant.ds.db.DB
 import com.jolbox.bonecp.{BoneCP, BoneCPConfig}
-import org.specs2.execute.AsResult
-
 
 
 class SportServiceSpec extends Specification with DSConfiguration with Specs2RouteTest with SportService with BeforeExample {
   def actorRefFactory = system
 
+  sequential
+
+  def db: DB = {
+    val bcpCfg = new BoneCPConfig()
+    bcpCfg.setUser(DBConfig.userName)
+    bcpCfg.setPassword(DBConfig.password)
+    bcpCfg.setJdbcUrl(DBConfig.url)
+
+    val bcp = new BoneCP(bcpCfg)
+
+    DB(bcp)
+  }
+
   def before = {
+    sequential
+
     println("Cleaning the db")
+    println("Using user: " + DBConfig.userName)
+
+    val bcpCfg = new BoneCPConfig()
+    bcpCfg.setUser(DBConfig.userName)
+    bcpCfg.setPassword(DBConfig.password)
+    bcpCfg.setJdbcUrl(DBConfig.url)
+    val bcp = new BoneCP(bcpCfg)
+    val conn = bcp.getConnection
+
+    conn.setAutoCommit(false)
+    val st = conn.createStatement()
+    val resource = io.Source.fromURL(getClass.getResource("/ddl.sql")).getLines
+    while(resource.hasNext) {
+      st.addBatch(resource.next)
+    }
+    st.executeBatch()
+    conn.commit()
+    conn.setAutoCommit(true)
+
   }
 
   
@@ -88,16 +120,5 @@ class SportServiceSpec extends Specification with DSConfiguration with Specs2Rou
 
     }
 
-  }
-
-  def db: DB = {
-    val bcpCfg = new BoneCPConfig()
-      bcpCfg.setUser(DBConfig.userName)
-      bcpCfg.setPassword(DBConfig.password)
-      bcpCfg.setJdbcUrl(DBConfig.url)
-
-      val bcp = new BoneCP(bcpCfg)
-
-      DB(bcp)
   }
 }
