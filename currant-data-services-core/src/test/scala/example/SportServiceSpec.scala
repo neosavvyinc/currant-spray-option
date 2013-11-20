@@ -16,16 +16,7 @@ class SportServiceSpec extends DBAwareBaseServiceSpec with SportService{
 
   "SportService" should {
     "support inserting a new sport" in {
-      val testSport: Sport = new Sport(
-        1L,
-        "New Sport",
-        "Meh just something lame",
-        true,
-        None,
-        None,
-        None,
-        None
-      )
+      val testSport:Sport = generateTestSport(1, "Baseball", "With a bat")
       Post("/sports", swrite(testSport)) ~> sportRoute ~> check {
         val resp = responseAs[String]
         resp must be equalTo(swrite(testSport))
@@ -34,36 +25,49 @@ class SportServiceSpec extends DBAwareBaseServiceSpec with SportService{
     }
 
     "return a list of two sports baseball and soccer" in {
+
+      executeCountForTable("SPORT") must be equalTo(0)
+      val testSport:Sport = generateTestSport(1, "Soccer", "With a ball")
+      val testSport1:Sport = generateTestSport(2, "Badminton", "Racquets")
+
+      Post("/sports", swrite(testSport)) ~> sportRoute ~> check {}
+      Post("/sports", swrite(testSport1)) ~> sportRoute ~> check {}
+      executeCountForTable("SPORT") must be equalTo(2)
+
+
       Get("/sports") ~> sportRoute ~> check {
         val b = responseAs[String]
         val sports = read[List[Sport]](b)
-        sports(0) must be equalTo(sports(0))
+        sports(0) must be equalTo(testSport)
+        sports(1) must be equalTo(testSport1)
       }
-    }.pendingUntilFixed("This is broken until we fix the db problem")
+    }
 
     "allow a new sport parameter to be posted in" in {
-      Put("/sports", swrite(new Sport(
-        1L,
-        "New Sport",
-        "Meh just something lame",
-        true,
-        None,
-        None,
-        None,
-        None
-      ))) ~> sportRoute ~> check {
+      val testSport:Sport = generateTestSport(3, "Target Practice", "With them thar guns")
+      Post("/sports", swrite(testSport)) ~> sportRoute ~> check {}
+      executeCountForTable("SPORT") must be equalTo(1)
+
+      val testSportUpdate:Sport = generateTestSport(3, "Archery", "With Bows and Arrows")
+
+      Put("/sports", swrite(testSportUpdate)) ~> sportRoute ~> check {
         val resp = responseAs[String]
-        resp must be equalTo("OK")
+        resp must be equalTo(swrite(testSportUpdate))
       }
-    }.pendingUntilFixed("This is broken until we fix the db problem")
+      executeCountForTable("SPORT") must be equalTo(1)
+    }
 
     "allow a get with id to return one sport that matches the id" in {
+      val testSport:Sport = generateTestSport(1, "Target Practice", "With them thar guns")
+      Post("/sports", swrite(testSport)) ~> sportRoute ~> check {}
+      executeCountForTable("SPORT") must be equalTo(1)
+
       Get("/sports/1") ~> sportRoute ~> check {
         val resp = responseAs[String]
         val sport = read[List[Sport]](resp)
-        sport(0).id must be equalTo(1)
+        sport(0) must be equalTo(testSport)
       }
-    }.pendingUntilFixed("This is broken until we fix the db problem")
+    }
 
     "support a delete which should simply return ok" in {
       Delete("/sports/1") ~> sportRoute ~> check {
@@ -73,5 +77,18 @@ class SportServiceSpec extends DBAwareBaseServiceSpec with SportService{
 
     }
 
+  }
+
+  def generateTestSport( id : Long, sportName : String, sportDesc : String ): Sport =  {
+    new Sport(
+      id,
+      sportName,
+      sportDesc,
+      true,
+      None,
+      None,
+      None,
+      None
+    )
   }
 }
