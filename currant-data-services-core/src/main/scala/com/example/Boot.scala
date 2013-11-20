@@ -7,7 +7,6 @@ import com.currant.ds.DSConfiguration
 import com.currant.ds.db.DB
 import com.jolbox.bonecp.{BoneCP, BoneCPConfig}
 import com.jolbox.bonecp
-import com.currant.ds.services.SportDataService
 
 object Boot extends App with DSConfiguration{
 
@@ -25,9 +24,7 @@ object Boot extends App with DSConfiguration{
 
   val db = DB(bcp)
 
-  val sportDataService = SportDataService(db)
-
-  val currantService = system.actorOf(Props(new CurrantRouteActor(sportDataService)), "service")
+  val currantService = system.actorOf(Props(new CurrantRouteActor(db)), "service")
 
   // start a new HTTP server on port 8080 with our service actor as the handler
   IO(Http) ! Http.Bind(currantService, interface = "localhost", port = 8080)
