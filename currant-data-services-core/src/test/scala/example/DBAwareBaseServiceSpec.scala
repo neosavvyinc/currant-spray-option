@@ -12,7 +12,7 @@ import spray.testkit.Specs2RouteTest
 import com.currant.ds.DSConfiguration
 import com.currant.ds.db.DB
 import com.jolbox.bonecp.{BoneCP, BoneCPConfig}
-import java.sql.ResultSet
+import java.sql.{Statement, ResultSet}
 
 
 /**
@@ -56,18 +56,24 @@ class DBAwareBaseServiceSpec extends Specification with DSConfiguration with Spe
   }
 
   def executeBatch(ddl: String, bcp: BoneCP = setupNewConnectionPool) {
-    val conn = bcp.getConnection
+      val conn = bcp.getConnection
 
-    conn.setAutoCommit(false)
-    val st = conn.createStatement()
-    val resource = io.Source.fromURL(getClass.getResource(ddl)).getLines
-    while (resource.hasNext) {
-      val nextLine = resource.next
-      st.addBatch(nextLine)
-    }
-    st.executeBatch()
-    conn.commit()
-    conn.setAutoCommit(true)
+      conn.setAutoCommit(false)
+
+      val resource = io.Source.fromURL(getClass.getResource(ddl)).getLines
+      while (resource.hasNext) {
+        val nextLine = resource.next()
+        try {
+          val st = conn.createStatement()
+          st.execute(nextLine)
+        } catch {
+          case e:Exception => println("Caught an error: " + e.toString)
+        }
+      }
+
+      conn.commit()
+      conn.setAutoCommit(true)
+
   }
 
   def executeCountForTable(table:String, bcp: BoneCP = setupNewConnectionPool) : Integer = {
