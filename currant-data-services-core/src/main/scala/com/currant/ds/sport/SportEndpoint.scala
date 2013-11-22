@@ -25,7 +25,7 @@ trait SportEndpoint extends DataHttpService {
           }
         }
       } ~
-      put {
+      post {
         respondWithMediaType(`application/json`) {
           entity(as[String]) { sport =>
             complete {
@@ -35,7 +35,7 @@ trait SportEndpoint extends DataHttpService {
           }
         }
       } ~
-      post {
+      put {
         respondWithMediaType(`application/json`) {
           entity(as[String]) { sport =>
             complete {

@@ -1,18 +1,13 @@
 package com.currant.ds
 
-import org.specs2.mutable.{After, Specification}
-import com.currant.ds.db.DB
-import com.jolbox.bonecp.{BoneCP, BoneCPConfig}
+import org.specs2.mutable.Specification
 import org.specs2.specification.BeforeExample
-import spray.testkit.Specs2RouteTest
-import com.currant.ds.DSConfiguration
 
 
 import spray.testkit.Specs2RouteTest
-import com.currant.ds.DSConfiguration
 import com.currant.ds.db.DB
 import com.jolbox.bonecp.{BoneCP, BoneCPConfig}
-import java.sql.{Statement, ResultSet}
+import java.sql.ResultSet
 
 
 /**
@@ -22,12 +17,11 @@ import java.sql.{Statement, ResultSet}
  * Date: 11/20/13
  * Time: 8:17 AM
  */
-trait DBAwareBaseServiceSpec extends Specification with DSConfiguration with Specs2RouteTest with BeforeExample
-{
+trait DBAwareBaseServiceSpec extends Specification with DSConfiguration with Specs2RouteTest with BeforeExample {
 
   def actorRefFactory = system
 
-  def dbScripts : Set[String] = Set.empty
+  def dbScripts: Set[String] = Set.empty
 
   sequential
 
@@ -44,8 +38,8 @@ trait DBAwareBaseServiceSpec extends Specification with DSConfiguration with Spe
 
   def before = {
     val bcp = setupNewConnectionPool()
-    println("Cleaning the db...")
-    executeBatch("/dropddl.sql", bcp)
+    println("resetting the db...")
+    executeBatch("/drop-ddl.sql", bcp)
     executeBatch("/ddl.sql", bcp)
     executeScripts(bcp)
     bcp.close()
@@ -53,7 +47,7 @@ trait DBAwareBaseServiceSpec extends Specification with DSConfiguration with Spe
   }
 
 
-  def setupNewConnectionPool() : BoneCP = {
+  def setupNewConnectionPool(): BoneCP = {
     val bcpCfg = new BoneCPConfig()
     bcpCfg.setUser(DBConfig.userName)
     bcpCfg.setPassword(DBConfig.password)
@@ -61,37 +55,34 @@ trait DBAwareBaseServiceSpec extends Specification with DSConfiguration with Spe
     new BoneCP(bcpCfg)
   }
 
-  def executeBatch(ddl: String, bcp : BoneCP) {
-      val conn = bcp.getConnection
-
-      conn.setAutoCommit(false)
-
-      val resource = io.Source.fromURL(getClass.getResource(ddl)).getLines
-      while (resource.hasNext) {
-        val nextLine = resource.next()
+  def executeBatch(ddl: String, bcp: BoneCP) {
+    println(s"executing $ddl")
+    val conn = bcp.getConnection
+    conn.setAutoCommit(false)
+    val queries = QueryReader.fromFile(ddl)
+    queries.foreach {
+      q =>
         try {
           val st = conn.createStatement()
-          st.execute(nextLine)
+          st.execute(q)
         } catch {
-          case e:Exception => println("Caught an error: " + e.toString)
+          case e: Exception => println("Caught an error: " + e.toString)
         }
-      }
-
-      conn.commit()
-      conn.setAutoCommit(true)
-
-  }
-
-  def executeScripts(bcp : BoneCP) {
-    dbScripts.foreach{script =>
-      QueryReader.fromFile(script).foreach(println)
     }
+
+    conn.commit()
+    conn.setAutoCommit(true)
+
   }
 
-  def executeCountForTable(table:String, bcp: BoneCP = setupNewConnectionPool) : Integer = {
+  def executeScripts(bcp: BoneCP) {
+    dbScripts.foreach(executeBatch(_, bcp))
+  }
+
+  def executeCountForTable(table: String, bcp: BoneCP = setupNewConnectionPool): Integer = {
     val sql = "SELECT COUNT(*) AS COUNT FROM " + table
     val conn = bcp.getConnection
-    val rs : ResultSet = conn.createStatement.executeQuery(sql)
+    val rs: ResultSet = conn.createStatement.executeQuery(sql)
     rs.next()
     rs.getInt("count")
   }
