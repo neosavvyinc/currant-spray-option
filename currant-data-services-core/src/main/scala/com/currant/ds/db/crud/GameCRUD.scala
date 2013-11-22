@@ -26,7 +26,9 @@ object GameCRUD {
 
   def byId(id: Long)(ctx: DSLContext): Option[Game] = {
     val game = ctx.selectFrom(GAME).where(GAME.GAME_ID.eq(id)).fetch()
-    iterableAsScalaIterable(game).headOption.map { game: Record =>
+
+    // being explicit about this while I'm learning...
+    iterableAsScalaIterable(game).headOption.map[Game] { game: Record =>
       fromRecord(game)
     }
   }
