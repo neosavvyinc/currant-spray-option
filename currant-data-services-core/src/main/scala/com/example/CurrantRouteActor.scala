@@ -5,6 +5,7 @@ import org.json4s.{NoTypeHints, native}
 import com.currant.ds.db.DB
 import com.currant.ds.sport.SportEndpoint
 import com.currant.ds.user.UserEndpoint
+import com.currant.ds.profile.ProfileEndpoint
 
 /**
  * Created by Neosavvy
@@ -16,7 +17,10 @@ import com.currant.ds.user.UserEndpoint
 
 class CurrantRouteActor(val db : DB) extends Actor with
 GameService with
-SportEndpoint with UserEndpoint {
+SportEndpoint with
+UserEndpoint with
+ProfileEndpoint {
+
   // the HttpService trait defines only one abstract member, which
   // connects the services environment to the enclosing actor or test
   def actorRefFactory = context
@@ -27,7 +31,8 @@ SportEndpoint with UserEndpoint {
   def receive = runRoute(
     sportRoute ~
       gameRoute ~
-        userRoute
+        userRoute ~
+         profileRoute
   )
 
   override implicit val formats = native.Serialization.formats(NoTypeHints)

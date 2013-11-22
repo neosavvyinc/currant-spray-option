@@ -1,18 +1,13 @@
 package com.currant.ds
 
-import org.specs2.mutable.{After, Specification}
-import com.currant.ds.db.DB
-import com.jolbox.bonecp.{BoneCP, BoneCPConfig}
+import org.specs2.mutable.Specification
 import org.specs2.specification.BeforeExample
-import spray.testkit.Specs2RouteTest
-import com.currant.ds.DSConfiguration
 
 
 import spray.testkit.Specs2RouteTest
-import com.currant.ds.DSConfiguration
 import com.currant.ds.db.DB
 import com.jolbox.bonecp.{BoneCP, BoneCPConfig}
-import java.sql.{Statement, ResultSet}
+import java.sql.ResultSet
 
 
 /**
