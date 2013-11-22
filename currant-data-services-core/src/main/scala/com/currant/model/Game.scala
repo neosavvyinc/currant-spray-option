@@ -15,3 +15,5 @@ case class Game(id: Long,
                  minPlayers: Option[Int],
                  maxPlayers: Option[Int],
                  waitList: Option[Int])
+
+case class GameCreateRequest
