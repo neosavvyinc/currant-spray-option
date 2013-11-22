@@ -1,90 +1,72 @@
 package com.currant.ds.sport
 
-
 import com.currant.model._
 import org.json4s.native.Serialization.{read, write => swrite}
 import com.currant.ds.DBAwareBaseServiceSpec
-
 
 class SportEndpointSpec extends DBAwareBaseServiceSpec with SportEndpoint {
 
   "SportService" should {
     "support inserting a new sport" in {
-      val testSport:Sport = generateTestSport(1, "Baseball", "With a bat")
-      Post("/sports", swrite(testSport)) ~> sportRoute ~> check {
+      val testSport = sportCreateReq("Baseball", "With a bat")
+      Put("/sports", swrite(testSport)) ~> sportRoute ~> check {
         val resp = responseAs[String]
-        resp must be equalTo(swrite(testSport))
+        val sport = read[Sport](resp)
+        sport.name must be equalTo testSport.name
       }
-      executeCountForTable("SPORT") must be equalTo(1)
     }
 
     "return a list of two sports baseball and soccer" in {
 
-      executeCountForTable("SPORT") must be equalTo(0)
-      val testSport:Sport = generateTestSport(1, "Soccer", "With a ball")
-      val testSport1:Sport = generateTestSport(2, "Badminton", "Racquets")
+      val testSport = sportCreateReq("Soccer", "With a ball")
+      val testSport1 = sportCreateReq("Badminton", "Racquets")
 
-      Post("/sports", swrite(testSport)) ~> sportRoute ~> check {}
-      Post("/sports", swrite(testSport1)) ~> sportRoute ~> check {}
-      executeCountForTable("SPORT") must be equalTo(2)
-
+      Put("/sports", swrite(testSport)) ~> sportRoute ~> check {}
+      Put("/sports", swrite(testSport1)) ~> sportRoute ~> check {}
 
       Get("/sports") ~> sportRoute ~> check {
         val b = responseAs[String]
         val sports = read[List[Sport]](b)
-        sports(0) must be equalTo(testSport)
-        sports(1) must be equalTo(testSport1)
+        sports must have size 2
+
       }
     }
 
-    "allow a new sport parameter to be posted in" in {
-      val testSport:Sport = generateTestSport(3, "Target Practice", "With them thar guns")
-      Post("/sports", swrite(testSport)) ~> sportRoute ~> check {}
-      executeCountForTable("SPORT") must be equalTo(1)
-
-      val testSportUpdate:Sport = generateTestSport(3, "Archery", "With Bows and Arrows")
-
-      Put("/sports", swrite(testSportUpdate)) ~> sportRoute ~> check {
-        val resp = responseAs[String]
-        resp must be equalTo(swrite(testSportUpdate))
-      }
-      executeCountForTable("SPORT") must be equalTo(1)
-    }
+    /* "allow a new sport parameter to be posted in" in {
+       val testSport = sportCreateReq("Target Practice", "With them thar guns")
+       Put("/sports", swrite(testSport)) ~> sportRoute ~> check {}
+ 
+       val testSportUpdate = Sport(1, "new name", "new descript", true, None, None, None, None)
+ 
+       Post("/sports", swrite(testSportUpdate)) ~> sportRoute ~> check {}
+ 
+       Get("/sports/1") ~> sportRoute ~> check {
+         val resp = responseAs[String]
+         val sport = read[Sport](resp)
+         sport must be equalTo testSportUpdate
+       }
+ 
+     }*/
 
     "allow a get with id to return one sport that matches the id" in {
-      val testSport:Sport = generateTestSport(1, "Target Practice", "With them thar guns")
-      Post("/sports", swrite(testSport)) ~> sportRoute ~> check {}
-      executeCountForTable("SPORT") must be equalTo(1)
+      val testSport = sportCreateReq("Target Practice", "With them thar guns")
+      Put ("/sports", swrite(testSport)) ~> sportRoute ~> check {}
 
       Get("/sports/1") ~> sportRoute ~> check {
         val resp = responseAs[String]
-        val sport = read[List[Sport]](resp)
-        sport(0) must be equalTo(testSport)
+        val sport = read[Sport](resp)
+        sport.name must be equalTo testSport.name
       }
     }
 
     "support a delete which should simply return ok" in {
       Delete("/sports/1") ~> sportRoute ~> check {
         val resp = responseAs[String]
-        resp must be equalTo("OK")
+        resp must be equalTo ("OK")
       }
-
     }
-
   }
 
-  override def dbScripts: Set[String] = Set("/sql/sport/register.sql")
+  private def sportCreateReq(name: String, descrip: String) = SportCreateRequest(name, descrip, true, None, None, None, None)
 
-  def generateTestSport( id : Long, sportName : String, sportDesc : String ): Sport =  {
-    new Sport(
-      id,
-      sportName,
-      sportDesc,
-      true,
-      None,
-      None,
-      None,
-      None
-    )
-  }
 }
