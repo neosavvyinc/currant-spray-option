@@ -1,10 +1,10 @@
 package com.currant.ds.game
 
-import com.currant.ds.db.DB
+import com.currant.ds.db.{DB, crud}
 import scala.concurrent.{Future, future}
 import com.currant.model.{Game, GameCreateRequest }
 import com.currant.model.GameTypes._
-//import com.currant.ds.db.crud.GameCRUD
+import org.jooq.DSLContext
 
 // for now
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -33,29 +33,27 @@ object GameService {
 
     def getAll: Future[GamesList] = {
       future {
-        Seq(
-          Game(1, "calvinball", "no rules", true, None, None, None, None)
-        )
+        db.withContext(crud.GameCRUD.list)
       }
     }
 
     def get(id: Long): Future[Option[Game]] = {
       future {
         Some(
-          Game(1, "calvinball", "no rules", true, None, None, None, None)
+          Game(1, "calvinball, no rules", true, None, None, None)
         )
       }
     }
 
     def create(cr: GameCreateRequest): Future[Game] = {
       future {
-        Game(1, "calvinball", "no rules", true, None, None, None, None)
+        Game(1, "calvinball, no rules", true, None, None, None)
       }
     }
 
     def update(cr: GameCreateRequest): Future[Game] = {
       future {
-        Game(1, "calvinball", "no rules", true, None, None, None, None)
+        Game(1, "calvinball, no rules", true, None, None, None)
       }
     }
 

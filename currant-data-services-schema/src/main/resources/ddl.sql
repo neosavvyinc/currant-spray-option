@@ -162,6 +162,7 @@ CREATE TABLE GAME (
   size INT NOT NULL,
   intensity VARCHAR(10) NOT NULL,
   description VARCHAR(200) NOT NULL,
+  image_url VARCHAR (1024), /* TODO: Look at URL datatype */
   status VARCHAR(10) NOT NULL, /*scheduled, in progress, cancelled, finished */
   waitlist_strategy VARCHAR(5) NOT NULL default('blast'),
   FOREIGN KEY (sport_id) REFERENCES SPORT(sport_id),

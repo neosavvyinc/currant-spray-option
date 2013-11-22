@@ -12,23 +12,33 @@ import scala.collection.JavaConversions._
  * Time: 9:50 PM
  */
 
-class GameCRUD {
+object GameCRUD {
 
   def list(ctx: DSLContext): Seq[Game] = {
     val allGames = ctx.selectFrom(GAME).fetch()
-    iterableAsScalaIterable(allGames).map(fromRecord(game => game)).toSeq
+    //iterableAsScalaIterable(allGames).map(fromRecord(_)).toSeq
+
+    // being explicit about this while I'm learning...
+    iterableAsScalaIterable(allGames).map { game =>
+      fromRecord(game)
+    }.toSeq
+  }
+
+  def byId(id: Long)(ctx: DSLContext): Option[Game] = {
+    val game = ctx.selectFrom(GAME).where(GAME.GAME_ID.eq(id)).fetch()
+    iterableAsScalaIterable(game).headOption.map { game: Record =>
+      fromRecord(game)
+    }
   }
 
   def fromRecord(r: Record): Game = {
     Game(
       r.getValue(GAME.GAME_ID),
-      "NAME", //r.getValue(GAME.),
       r.getValue(GAME.DESCRIPTION),
       r.getValue(GAME.ACTIVE),
-      Some("IMAGEURL"),
-      Some(1), //"MIN PLAYERS",
-      Some(5), //"MAX PLAYERS"
-      Some(1) // wait list
+      Option(r.getValue(GAME.IMAGE_URL)),
+      Option(r.getValue(GAME.MIN_PLAYERS)),
+      Option(r.getValue(GAME.MAX_PLAYERS))
     )
   }
 }

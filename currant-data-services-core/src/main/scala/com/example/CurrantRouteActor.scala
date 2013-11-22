@@ -26,7 +26,6 @@ SportEndpoint with UserEndpoint {
   // or timeout handling
   def receive = runRoute(
     sportRoute ~
-      gameRoute ~
         userRoute
   )
 
