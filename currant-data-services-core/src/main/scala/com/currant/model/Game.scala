@@ -7,6 +7,13 @@ package com.currant.model
  * Date: 11/16/13
  * Time: 3:08 PM
  */
+
+//type GamesList = Seq[Game]
+
+object GameTypes {
+  type GamesList = Seq[Game]
+}
+
 case class Game(id: Long,
                  name: String,
                  description: String,
@@ -16,4 +23,12 @@ case class Game(id: Long,
                  maxPlayers: Option[Int],
                  waitList: Option[Int])
 
-case class GameCreateRequest
+case class GameCreateRequest(
+                name: String,
+                description: String,
+                active: Boolean,
+                imageUrl: Option[String],
+                minPlayers: Option[Int],
+                maxPlayers: Option[Int],
+                waitList: Option[Int])
+

@@ -2,7 +2,7 @@ package com.currant.ds.game
 
 import spray.http._
 import MediaTypes._
-import com.currant.model.Game
+import com.currant.model.{Game, GameCreateRequest}
 import org.json4s.native.Serialization.{write => swrite, _}
 
 import org.json4s._
@@ -28,9 +28,8 @@ trait GameEndpoint extends DataHttpService {
         respondWithMediaType(`application/json`) {
           entity(as[String]) { game =>
             complete {
-              //val gameObj = read[Game](game)
-              // gameDataService.create(gameObj)
-              swrite(List(1,2,3))
+              val gameObj = read[GameCreateRequest](game)
+              swrite(gameDataService.create(gameObj))
             }
           }
         }
@@ -39,8 +38,7 @@ trait GameEndpoint extends DataHttpService {
           get {
             respondWithMediaType(`application/json`) {
               complete {
-                //swrite(gameDataService.get(id))
-                swrite(JObject)
+                swrite(gameDataService.get(id))
               }
             }
           } ~
@@ -48,9 +46,8 @@ trait GameEndpoint extends DataHttpService {
             respondWithMediaType(`application/json`) {
               entity(as[String]) { game =>
                 complete {
-                  //val gameObj = read[Game](game)
-                  //gameDataService.update(gameObj)
-                  swrite(JObject)
+                  val gameObj = read[GameCreateRequest](game)
+                  swrite(gameDataService.update(gameObj))
                 }
               }
             }
@@ -58,7 +55,7 @@ trait GameEndpoint extends DataHttpService {
           delete {
              respondWithMediaType(`application/json`) {
               complete {
-                //gameDataService.delete(id)
+                gameDataService.delete(List(id))
                 StatusCodes.OK
               }
             }

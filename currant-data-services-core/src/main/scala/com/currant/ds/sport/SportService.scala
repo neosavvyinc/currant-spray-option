@@ -31,7 +31,6 @@ object SportService {
       db.withContext(SportCRUD.list)
     }
 
-
     def get(id: Long): Option[Sport] = {
      db.withContext(SportCRUD.byId(id))
     }
