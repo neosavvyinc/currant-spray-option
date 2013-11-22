@@ -1,11 +1,11 @@
-package com.currant.ds.services
+package com.currant.ds.sport
 
 import com.currant.ds.db.DB
 import com.currant.model.{Sport, SportCreateRequest}
 import com.currant.ds.db.crud.SportCRUD
 
 
-trait SportsDataService {
+trait SportService {
 
   def create(cr: SportCreateRequest): Sport
 
@@ -18,9 +18,9 @@ trait SportsDataService {
   def update(sport: Sport): Sport
 }
 
-object SportDataService {
+object SportService {
 
-  def apply(db: DB) = new SportsDataService {
+  def apply(db: DB) = new SportService {
     def create(cr: SportCreateRequest): Sport = {
       val partiallyApplied = SportCRUD.create(cr) _
       val id = db.withTransactionContext(partiallyApplied)

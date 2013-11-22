@@ -10,9 +10,10 @@ import com.currant.ds.DSConfiguration
 import com.currant.ds.db.DB
 import com.jolbox.bonecp.{BoneCP, BoneCPConfig}
 import example.DBAwareBaseServiceSpec
+import com.currant.ds.sport.SportEndpoint
 
 
-class SportServiceSpec extends DBAwareBaseServiceSpec with SportService {
+class SportEndpointSpec extends DBAwareBaseServiceSpec with SportEndpoint {
 
   "SportService" should {
     "support inserting a new sport" in {
