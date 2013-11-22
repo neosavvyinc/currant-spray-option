@@ -1,4 +1,4 @@
-package com.example
+package com.currant.ds.sport
 
 import org.specs2.mutable.{Around, Specification}
 import org.specs2.specification.{BeforeExample, Scope}
@@ -6,14 +6,15 @@ import org.specs2.specification.{BeforeExample, Scope}
 import spray.testkit.Specs2RouteTest
 import com.currant.model._
 import org.json4s.native.Serialization.{read, write => swrite}
-import com.currant.ds.DSConfiguration
+import com.currant.ds.{DBAwareBaseServiceSpec, DSConfiguration}
 import com.currant.ds.db.DB
 import com.jolbox.bonecp.{BoneCP, BoneCPConfig}
-import example.DBAwareBaseServiceSpec
 import com.currant.ds.sport.SportEndpoint
 
 
 class SportEndpointSpec extends DBAwareBaseServiceSpec with SportEndpoint {
+
+
 
   "SportService" should {
     "support inserting a new sport" in {
@@ -79,6 +80,8 @@ class SportEndpointSpec extends DBAwareBaseServiceSpec with SportEndpoint {
     }
 
   }
+
+  override def dbScripts: Set[String] = Set("/sql/sport/register.sql")
 
   def generateTestSport( id : Long, sportName : String, sportDesc : String ): Sport =  {
     new Sport(

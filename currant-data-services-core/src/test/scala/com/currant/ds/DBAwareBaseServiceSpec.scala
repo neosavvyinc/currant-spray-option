@@ -1,6 +1,6 @@
-package example
+package com.currant.ds
 
-import org.specs2.mutable.Specification
+import org.specs2.mutable.{After, Specification}
 import com.currant.ds.db.DB
 import com.jolbox.bonecp.{BoneCP, BoneCPConfig}
 import org.specs2.specification.BeforeExample
@@ -22,10 +22,12 @@ import java.sql.{Statement, ResultSet}
  * Date: 11/20/13
  * Time: 8:17 AM
  */
-class DBAwareBaseServiceSpec extends Specification with DSConfiguration with Specs2RouteTest with BeforeExample
+trait DBAwareBaseServiceSpec extends Specification with DSConfiguration with Specs2RouteTest with BeforeExample
 {
 
   def actorRefFactory = system
+
+  def dbScripts : Set[String] = Set.empty
 
   sequential
 
@@ -41,9 +43,13 @@ class DBAwareBaseServiceSpec extends Specification with DSConfiguration with Spe
   }
 
   def before = {
+    val bcp = setupNewConnectionPool()
     println("Cleaning the db...")
-    executeBatch("/dropddl.sql")
-    executeBatch("/ddl.sql")
+    executeBatch("/dropddl.sql", bcp)
+    executeBatch("/ddl.sql", bcp)
+    executeScripts(bcp)
+    bcp.close()
+    bcp.shutdown()
   }
 
 
@@ -55,7 +61,7 @@ class DBAwareBaseServiceSpec extends Specification with DSConfiguration with Spe
     new BoneCP(bcpCfg)
   }
 
-  def executeBatch(ddl: String, bcp: BoneCP = setupNewConnectionPool) {
+  def executeBatch(ddl: String, bcp : BoneCP) {
       val conn = bcp.getConnection
 
       conn.setAutoCommit(false)
@@ -74,6 +80,12 @@ class DBAwareBaseServiceSpec extends Specification with DSConfiguration with Spe
       conn.commit()
       conn.setAutoCommit(true)
 
+  }
+
+  def executeScripts(bcp : BoneCP) {
+    dbScripts.foreach{script =>
+      QueryReader.fromFile(script).foreach(println)
+    }
   }
 
   def executeCountForTable(table:String, bcp: BoneCP = setupNewConnectionPool) : Integer = {
