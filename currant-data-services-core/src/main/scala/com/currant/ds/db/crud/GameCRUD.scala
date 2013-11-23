@@ -19,9 +19,10 @@ object GameCRUD {
     //iterableAsScalaIterable(allGames).map(fromRecord(_)).toSeq
 
     // being explicit about this while I'm learning...
-    iterableAsScalaIterable(allGames).map { game =>
-      fromRecord(game)
-    }.toSeq
+    //iterableAsScalaIterable(allGames).map { game =>
+    //  fromRecord(game)
+    //}.toSeq
+    Seq(Game(1, "calvinball, no rules", true, None, None, None))
   }
 
   def byId(id: Long)(ctx: DSLContext): Option[Game] = {

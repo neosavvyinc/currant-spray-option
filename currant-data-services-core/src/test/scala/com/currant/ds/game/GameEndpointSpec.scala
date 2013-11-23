@@ -19,10 +19,9 @@ import com.jolbox.bonecp.{BoneCP, BoneCPConfig}
 
 class GameEndpointSpec extends DBAwareBaseServiceSpec with GameEndpoint {
 
-  /*
   "GameService" should {
     "support return a list of games" in {
-      val testGame:Game = Game(1, "calvinball", "no rules", true, None, None, None, None)
+      val testGame:Game = Game(1, "calvinball, no rules", true, None, None, None)
       Get("/games") ~> gameRoute ~> check {
         val gamesString = responseAs[String]
         val games = read[List[Game]](gamesString)
@@ -30,5 +29,4 @@ class GameEndpointSpec extends DBAwareBaseServiceSpec with GameEndpoint {
       }
     }
   }
-  */
 }
