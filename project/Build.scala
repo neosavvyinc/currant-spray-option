@@ -113,6 +113,7 @@ object Shared {
     scalaVersion := "2.10.3",
     scalacOptions := Seq("-deprecation", "-unchecked", "-encoding", "utf8"),
     initialCommands := "import com.currant.currantdataservices._",
+    parallelExecution in Test := false,
     shellPrompt := ShellPrompt.buildShellPrompt
   ) ++ net.virtualvoid.sbt.graph.Plugin.graphSettings
 

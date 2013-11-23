@@ -10,6 +10,8 @@ class UserEndpointSpec extends DBAwareBaseServiceSpec with UserEndpoint {
 
   import UserEndPointProtocol._
 
+  sequential
+
   override def dbScripts: Set[String] = Set("/sql/sport/register.sql")
 
   "User Service" should {
@@ -19,7 +21,8 @@ class UserEndpointSpec extends DBAwareBaseServiceSpec with UserEndpoint {
         status == OK
       }
 
-    }.pendingUntilFixed("This appears to have been broken in the last commit")
+    }
+
     "fail if registering a user with a duplicate email" in {
       val newUser = CurrantUserRegistration("guy", "awesome", "maxpayne", "guy@johnson.com", "now", Seq(1), None)
       Post("/registration", newUser) ~> userRoute ~> check {
@@ -28,7 +31,7 @@ class UserEndpointSpec extends DBAwareBaseServiceSpec with UserEndpoint {
       Post("/registration", newUser) ~> userRoute ~> check {
         status == InternalServerError
       }
-    }.pendingUntilFixed("This appears to have been broken in the last commit - also!")
+    }
   }
 
 }

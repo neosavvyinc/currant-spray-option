@@ -3,10 +3,8 @@ package com.currant.ds
 import akka.actor.{Props, ActorSystem}
 import akka.io.IO
 import spray.can.Http
-import com.currant.ds.{CurrantRouteActor, DSConfiguration}
 import com.currant.ds.db.DB
 import com.jolbox.bonecp.{BoneCP, BoneCPConfig}
-import com.jolbox.bonecp
 
 object Boot extends App with DSConfiguration{
 

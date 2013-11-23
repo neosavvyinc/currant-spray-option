@@ -6,6 +6,8 @@ import com.currant.ds.DBAwareBaseServiceSpec
 
 class SportEndpointSpec extends DBAwareBaseServiceSpec with SportEndpoint {
 
+  sequential
+
   "SportService" should {
     "support inserting a new sport" in {
       val testSport = sportCreateReq("Baseball", "With a bat")
@@ -16,7 +18,7 @@ class SportEndpointSpec extends DBAwareBaseServiceSpec with SportEndpoint {
       }
     }
 
-    "return a list of two sports baseball and soccer" in {
+    "return a list of two sport= baseball and soccer" in {
 
       val testSport = sportCreateReq("Soccer", "With a ball")
       val testSport1 = sportCreateReq("Badminton", "Racquets")
@@ -27,10 +29,10 @@ class SportEndpointSpec extends DBAwareBaseServiceSpec with SportEndpoint {
       Get("/sports") ~> sportRoute ~> check {
         val b = responseAs[String]
         val sports = read[List[Sport]](b)
-        sports must have size 5
+        sports must have size 2
 
       }
-    }.pendingUntilFixed("This is broken as of the last commit and will need to be fixed")
+    }
 
     /* "allow a new sport parameter to be posted in" in {
        val testSport = sportCreateReq("Target Practice", "With them thar guns")

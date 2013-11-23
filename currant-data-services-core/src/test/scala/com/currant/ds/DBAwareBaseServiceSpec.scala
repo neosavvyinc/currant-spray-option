@@ -23,8 +23,6 @@ trait DBAwareBaseServiceSpec extends Specification with DSConfiguration with Spe
 
   def dbScripts: Set[String] = Set.empty
 
-  sequential
-
   def db: DB = {
     val bcpCfg = new BoneCPConfig()
     bcpCfg.setUser(DBConfig.userName)
@@ -78,7 +76,7 @@ trait DBAwareBaseServiceSpec extends Specification with DSConfiguration with Spe
     } catch {
       case e: Exception => println("Caught an error: " + e.toString)
     } finally {
-      conn.close();
+      conn.close()
     }
 
   }

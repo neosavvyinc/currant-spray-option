@@ -13,8 +13,9 @@ import org.junit.runner.RunWith
  * Date: 11/21/13
  * Time: 9:35 PM
  */
-@RunWith(classOf[JUnitRunner])
 object ProfileServiceSpec extends DBAwareBaseServiceSpec with ProfileEndpoint {
+
+  sequential
 
   "ProfileService" should {
     "support finding a profile by an integer id" in {

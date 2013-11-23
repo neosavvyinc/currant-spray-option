@@ -1,12 +1,11 @@
 package com.currant.ds
 
-import akka.actor.{Props, Actor}
+import akka.actor.Actor
 import org.json4s.{NoTypeHints, native}
 import com.currant.ds.db.DB
 import com.currant.ds.sport.SportEndpoint
 import com.currant.ds.user.UserEndpoint
 import com.currant.ds.profile.ProfileEndpoint
-import com.currant.ds.GameService
 
 /**
  * Created by Neosavvy
