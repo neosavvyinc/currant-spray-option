@@ -20,8 +20,7 @@ case class CurrantUserRegistration(firstName : String,
                                    facebookId : Option[String])
 
 case class CurrantUserInsert(email : String,
-                             salt : String,
-                             password : String,
+                             saltyHash : String,
                              accountStatus : CurrantUserStatus,
                              subscriberType :String ,
                              active :Boolean)

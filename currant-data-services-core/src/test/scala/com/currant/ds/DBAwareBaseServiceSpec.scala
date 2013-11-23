@@ -59,7 +59,7 @@ trait DBAwareBaseServiceSpec extends Specification with DSConfiguration with Spe
     new BoneCP(bcpCfg)
   }
 
-  def executeBatch(ddl: String, bcp: BoneCP) {
+  def executeBatch(ddl: String, bcp: BoneCP, logSql : Boolean = false) {
     println(s"executing $ddl")
     val conn = bcp.getConnection
     conn.setAutoCommit(false)
@@ -67,6 +67,7 @@ trait DBAwareBaseServiceSpec extends Specification with DSConfiguration with Spe
     queries.foreach {
       q =>
         try {
+          if(logSql) println(q)
           val st = conn.createStatement()
           st.execute(q)
         } catch {
@@ -80,7 +81,7 @@ trait DBAwareBaseServiceSpec extends Specification with DSConfiguration with Spe
   }
 
   def executeScripts(bcp: BoneCP) {
-    dbScripts.foreach(executeBatch(_, bcp))
+    dbScripts.foreach(executeBatch(_, bcp, true))
   }
 
   def executeCountForTable(table: String, bcp: BoneCP = setupNewConnectionPool): Integer = {

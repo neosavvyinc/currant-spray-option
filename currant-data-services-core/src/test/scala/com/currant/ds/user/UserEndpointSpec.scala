@@ -6,7 +6,7 @@ import spray.json._
 import spray.httpx.SprayJsonSupport._
 import spray.http.StatusCodes._
 
-class UserEndpointSpec extends DBAwareBaseServiceSpec with UserEndpoint{
+class UserEndpointSpec extends DBAwareBaseServiceSpec with UserEndpoint {
 
   import UserEndPointProtocol._
 
@@ -17,9 +17,17 @@ class UserEndpointSpec extends DBAwareBaseServiceSpec with UserEndpoint{
       val newUser = CurrantUserRegistration("guy", "awesome", "maxpayne", "guy@johnson.com", "now", Seq(1), None)
       Post("/registration", newUser) ~> userRoute ~> check {
         status == OK
-        //e//ntity
       }
 
+    }
+    "fail if registering a user with a duplicate email" in {
+      val newUser = CurrantUserRegistration("guy", "awesome", "maxpayne", "guy@johnson.com", "now", Seq(1), None)
+      Post("/registration", newUser) ~> userRoute ~> check {
+        status == OK
+      }
+      Post("/registration", newUser) ~> userRoute ~> check {
+        status == InternalServerError
+      }
     }
   }
 

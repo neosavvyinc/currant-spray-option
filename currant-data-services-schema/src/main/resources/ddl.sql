@@ -13,8 +13,7 @@ CREATE TABLE SPORT(
 CREATE TABLE CURRANT_USER(
   currant_user_id BIGSERIAL PRIMARY KEY NOT NULL,
   email_address VARCHAR(50) NOT NULL, /* TODO: should determine max value of an email address */
-  salt VARCHAR (20) NOT NULL ,
-  password VARCHAR (100) NOT NULL, /*hashed (duh), we should come up with a nice fat number for the amount of hashes*/
+  password VARCHAR (256) NOT NULL,
   account_status VARCHAR (20) NOT NULL, /*status can represent stuff like non verified, reset password, etc */
   subscriber_type VARCHAR (20) NOT NULL, /* TODO: decide if this should be a foreign key to another table for "paid" "subscribed" etc...*/
   active BOOLEAN NOT NULL, /* active represents whether or not the user is active..might be able to tie into status */
@@ -35,10 +34,10 @@ CREATE TABLE PROFILE(
   country VARCHAR (50),
   profile_level VARCHAR (10) NOT NULL, /*elite, standard, etc*/
   preferred_time VARCHAR (10), /*preferred time to play */
-  location_enabled BOOLEAN NOT NULL ,
-  new_game_notification BOOLEAN NOT NULL,
-  friend_activity_notification BOOLEAN NOT NULL,
-  news_promotions_notification BOOLEAN NOT NULL,
+  location_enabled BOOLEAN NOT NULL DEFAULT true ,
+  new_game_notification BOOLEAN NOT NULL DEFAULT true,
+  friend_activity_notification BOOLEAN NOT NULL DEFAULT true,
+  news_promotions_notification BOOLEAN NOT NULL DEFAULT true,
   payment_receipt VARCHAR(100),
   FOREIGN KEY (currant_user_id) REFERENCES currant_user (currant_user_id)
 );
