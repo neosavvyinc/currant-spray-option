@@ -60,23 +60,26 @@ trait DBAwareBaseServiceSpec extends Specification with DSConfiguration with Spe
   }
 
   def executeBatch(ddl: String, bcp: BoneCP, logSql : Boolean = false) {
-    println(s"executing $ddl")
     val conn = bcp.getConnection
-    conn.setAutoCommit(false)
-    val queries = QueryReader.fromFile(ddl)
-    queries.foreach {
-      q =>
-        try {
+    try {
+      println(s"executing $ddl")
+
+      conn.setAutoCommit(false)
+      val queries = QueryReader.fromFile(ddl)
+      queries.foreach {
+        q =>
           if(logSql) println(q)
           val st = conn.createStatement()
           st.execute(q)
-        } catch {
-          case e: Exception => println("Caught an error: " + e.toString)
-        }
-    }
+      }
 
-    conn.commit()
-    conn.setAutoCommit(true)
+      conn.commit()
+      conn.setAutoCommit(true)
+    } catch {
+      case e: Exception => println("Caught an error: " + e.toString)
+    } finally {
+      conn.close();
+    }
 
   }
 
