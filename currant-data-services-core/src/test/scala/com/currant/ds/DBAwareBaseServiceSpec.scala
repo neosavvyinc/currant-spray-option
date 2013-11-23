@@ -30,6 +30,8 @@ trait DBAwareBaseServiceSpec extends Specification with DSConfiguration with Spe
     bcpCfg.setUser(DBConfig.userName)
     bcpCfg.setPassword(DBConfig.password)
     bcpCfg.setJdbcUrl(DBConfig.url)
+    bcpCfg.setDefaultAutoCommit(false)
+    bcpCfg.setDisableJMX(true)
 
     val bcp = new BoneCP(bcpCfg)
 
@@ -52,6 +54,8 @@ trait DBAwareBaseServiceSpec extends Specification with DSConfiguration with Spe
     bcpCfg.setUser(DBConfig.userName)
     bcpCfg.setPassword(DBConfig.password)
     bcpCfg.setJdbcUrl(DBConfig.url)
+    bcpCfg.setDefaultAutoCommit(false)
+    bcpCfg.setDisableJMX(true)
     new BoneCP(bcpCfg)
   }
 

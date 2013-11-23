@@ -19,6 +19,8 @@ object Boot extends App with DSConfiguration{
   bcpCfg.setUser(DBConfig.userName)
   bcpCfg.setPassword(DBConfig.password)
   bcpCfg.setJdbcUrl(DBConfig.url)
+  bcpCfg.setDefaultAutoCommit(false)
+  bcpCfg.setDisableJMX(true)
 
   val bcp = new BoneCP(bcpCfg)
 
