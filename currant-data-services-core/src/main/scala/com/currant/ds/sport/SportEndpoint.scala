@@ -6,8 +6,8 @@ import com.currant.model.Sport
 import org.json4s.native.Serialization.{write => swrite, _}
 
 import org.json4s._
-import com.example.DataHttpService
 import com.currant.model.SportCreateRequest
+import com.currant.ds.DataHttpService
 
 // this trait defines our service behavior independently from the service actor
 trait SportEndpoint extends DataHttpService {

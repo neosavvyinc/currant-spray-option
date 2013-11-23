@@ -1,9 +1,10 @@
 package com.currant.ds
 
-import java.sql.Connection
+import java.sql.{BatchUpdateException, SQLException, Connection}
 import org.jooq.DSLContext
 import com.jolbox.bonecp.BoneCP
 import org.jooq.impl.DSL
+import org.jooq.exception.DataAccessException
 
 package object db {
 

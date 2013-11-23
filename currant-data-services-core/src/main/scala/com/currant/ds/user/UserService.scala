@@ -27,16 +27,16 @@ object UserService {
     def registerUser(req: CurrantUserRegistration): Future[InsertResponse] = {
       future {
         db.withTransactionContext{implicit ctx =>
+
           val emailExists = UserCRUD.emailCheck(req.email).execute() > 0
           if(emailExists) {
             throw new DuplicateUserException()
           }
-          val seed = Passwords.generateNewSeed
-          val password = Passwords.hashPassword(req.password, seed)
-          val userInsert = CurrantUserInsert(req.email, seed, password, Active, "", true)
+          val saltyHash = Passwords.getSaltedHash(req.password)
+          val userInsert = CurrantUserInsert(req.email, saltyHash, Active, "", true)
           val id = UserCRUD.insertUser(userInsert)
-          val source = req.facebookId.map(x=>Facebook).getOrElse(Currant)
-          val profileInsert = ProfileInsert(id, source, req.facebookId.getOrElse(""), req.firstName, req.lastName, Standard, req.favoriteTimeToPlay)
+          val source = req.facebookId.map(x=>Facebook()).getOrElse(Currant())
+          val profileInsert = ProfileInsert(id, source, req.facebookId.getOrElse(""), req.firstName, req.lastName, Standard(), req.favoriteTimeToPlay)
           val profileId = UserCRUD.insertProfile(profileInsert)
           UserCRUD.insertFavoriteSports(profileId, req.favoriteSports)
           InsertResponse(id, profileId)

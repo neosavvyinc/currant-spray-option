@@ -25,6 +25,8 @@ object GameEnpointProtocol extends DefaultJsonProtocol {
 
 class GameEndpointSpec extends DBAwareBaseServiceSpec with GameEndpoint {
 
+  sequential
+
   import GameEnpointProtocol.gameFormat
 
   "GameService" should {

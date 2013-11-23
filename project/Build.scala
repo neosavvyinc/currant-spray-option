@@ -39,7 +39,12 @@ object Build extends sbt.Build {
     lazy val core =
       project(id = "currant-data-services-core",
               base = file("currant-data-services-core"),
-              settings = Seq(libraryDependencies ++= Shared.Spray ++ Shared.Akka ++Shared.Json4s ++ Shared.BoneCP) ++ Revolver.settings
+              settings = Seq(libraryDependencies ++=
+                Shared.Spray ++
+                Shared.Akka ++
+                Shared.Json4s ++
+                Shared.BoneCP ++
+                Shared.Other) ++ Revolver.settings
              ) dependsOn schema
 
     def project(id: String, base: File, settings: Seq[Def.Setting[_]] = Nil) =
@@ -94,7 +99,12 @@ object Shared {
 
 
   val testDeps = Seq(
-    "org.specs2"          %%  "specs2"        % "2.2.3" % "test"
+    "org.specs2"          %%  "specs2"        % "2.2.3" % "test",
+    "junit"               %   "junit-dep"     % "4.10"
+  )
+
+  val Other = Seq(
+    "commons-codec" % "commons-codec" % "1.8"
   )
 
 
@@ -103,6 +113,7 @@ object Shared {
     organization := "com.currant",
     scalaVersion := "2.10.3",
     scalacOptions := Seq("-deprecation", "-unchecked", "-encoding", "utf8"),
+    parallelExecution in Test := false,
     shellPrompt := ShellPrompt.buildShellPrompt
   ) ++ net.virtualvoid.sbt.graph.Plugin.graphSettings
 

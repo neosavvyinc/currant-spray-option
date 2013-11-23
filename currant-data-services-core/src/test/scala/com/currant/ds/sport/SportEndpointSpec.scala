@@ -6,6 +6,8 @@ import com.currant.ds.DBAwareBaseServiceSpec
 
 class SportEndpointSpec extends DBAwareBaseServiceSpec with SportEndpoint {
 
+  sequential
+
   "SportService" should {
     "support inserting a new sport" in {
       val testSport = sportCreateReq("Baseball", "With a bat")
@@ -16,7 +18,7 @@ class SportEndpointSpec extends DBAwareBaseServiceSpec with SportEndpoint {
       }
     }
 
-    "return a list of two sports baseball and soccer" in {
+    "return a list of two sport= baseball and soccer" in {
 
       val testSport = sportCreateReq("Soccer", "With a ball")
       val testSport1 = sportCreateReq("Badminton", "Racquets")
@@ -32,21 +34,21 @@ class SportEndpointSpec extends DBAwareBaseServiceSpec with SportEndpoint {
       }
     }
 
-   /* "allow a new sport parameter to be posted in" in {
-      val testSport = sportCreateReq("Target Practice", "With them thar guns")
-      Put("/sports", swrite(testSport)) ~> sportRoute ~> check {}
-
-      val testSportUpdate = Sport(1, "new name", "new descript", true, None, None, None, None)
-
-      Post("/sports", swrite(testSportUpdate)) ~> sportRoute ~> check {}
-
-      Get("/sports/1") ~> sportRoute ~> check {
-        val resp = responseAs[String]
-        val sport = read[Sport](resp)
-        sport must be equalTo testSportUpdate
-      }
-
-    }*/
+    /* "allow a new sport parameter to be posted in" in {
+       val testSport = sportCreateReq("Target Practice", "With them thar guns")
+       Put("/sports", swrite(testSport)) ~> sportRoute ~> check {}
+ 
+       val testSportUpdate = Sport(1, "new name", "new descript", true, None, None, None, None)
+ 
+       Post("/sports", swrite(testSportUpdate)) ~> sportRoute ~> check {}
+ 
+       Get("/sports/1") ~> sportRoute ~> check {
+         val resp = responseAs[String]
+         val sport = read[Sport](resp)
+         sport must be equalTo testSportUpdate
+       }
+ 
+     }*/
 
     "allow a get with id to return one sport that matches the id" in {
       val testSport = sportCreateReq("Target Practice", "With them thar guns")

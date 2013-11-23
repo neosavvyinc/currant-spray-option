@@ -6,7 +6,7 @@ import spray.httpx.SprayJsonSupport._
 import MediaTypes._
 import com.currant.model.{Game, GameCreateRequest}
 
-import com.example.DataHttpService
+import com.currant.ds.DataHttpService
 
 object GameEndpointProtocol extends DefaultJsonProtocol {
   implicit val gameFormat = jsonFormat6(Game)
