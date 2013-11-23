@@ -163,6 +163,10 @@ CREATE TABLE GAME (
   intensity VARCHAR(10) NOT NULL,
   description VARCHAR(200) NOT NULL,
   status VARCHAR(10) NOT NULL, /*scheduled, in progress, cancelled, finished */
+  image_url VARCHAR (1024), /* TODO: Look at URL datatype */
+  active BOOLEAN NOT NULL , /*soft deletion flag*/
+  min_players INT,
+  max_players INT,
   waitlist_strategy VARCHAR(5) NOT NULL default('blast'),
   FOREIGN KEY (sport_id) REFERENCES SPORT(sport_id),
   FOREIGN KEY (club_id) REFERENCES CLUB(club_id)

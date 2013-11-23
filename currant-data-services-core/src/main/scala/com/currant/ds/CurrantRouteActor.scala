@@ -1,11 +1,12 @@
 package com.currant.ds
 
-import akka.actor.Actor
+import akka.actor.{Props, Actor}
 import org.json4s.{NoTypeHints, native}
 import com.currant.ds.db.DB
 import com.currant.ds.sport.SportEndpoint
 import com.currant.ds.user.UserEndpoint
 import com.currant.ds.profile.ProfileEndpoint
+import com.currant.ds.game.GameEndpoint
 
 /**
  * Created by Neosavvy
@@ -16,7 +17,7 @@ import com.currant.ds.profile.ProfileEndpoint
  */
 
 class CurrantRouteActor(val db : DB) extends Actor with
-GameService with
+GameEndpoint with
 SportEndpoint with
 UserEndpoint with
 ProfileEndpoint {
