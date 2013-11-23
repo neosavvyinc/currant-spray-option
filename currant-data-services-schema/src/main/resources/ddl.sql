@@ -162,11 +162,8 @@ CREATE TABLE GAME (
   size INT NOT NULL,
   intensity VARCHAR(10) NOT NULL,
   description VARCHAR(200) NOT NULL,
-  status VARCHAR(10) NOT NULL, /*scheduled, in progress, cancelled, finished */
   image_url VARCHAR (1024), /* TODO: Look at URL datatype */
-  active BOOLEAN NOT NULL , /*soft deletion flag*/
-  min_players INT,
-  max_players INT,
+  status VARCHAR(10) NOT NULL, /*scheduled, in progress, cancelled, finished */
   waitlist_strategy VARCHAR(5) NOT NULL default('blast'),
   FOREIGN KEY (sport_id) REFERENCES SPORT(sport_id),
   FOREIGN KEY (club_id) REFERENCES CLUB(club_id)
@@ -208,37 +205,8 @@ CREATE TABLE GAME_IMAGE (
   sort_order INT NOT NULL,
   FOREIGN KEY (game_id) REFERENCES GAME(game_id),
   CONSTRAINT game_image_unique UNIQUE (game_id, image_url)
-)
+);
 
-/**
-What's still missing:
-- audit fields(created on, updated on, etc)  we can probably just get away with created
-on for now, but we will need to address our auditing needs.
-
-- venues are not here
-- recurring games are not here
-- checking into a game ?
-- gps coords? are these needed?
-- i broke out the profile/user table along a gray area, but with the mindset that we should somehow
-differentiate between the 2
-- feed is not addressed here, but that is because we probably won't use this
-sql store for that, and will utilize either redis or mongo
-- chat is also not covered here.
-- reiteration of question about inviting clubs to a game:
-can a user create a game and invite a club that they are not the manager of?
-- messaging is not covered in this game
-- notification preferences are simple boolean on profile for now
-- clubs have no real notion of permissions right now.  just god(creator) and serfs.
-- i added amount for games and equipment, so that a user can say "bring x of y to game z"
-- i also added photos to games..idk if we will need this.
-- we should sit down and make sure the "status" field makes sense for connections and profiles ,etc.  also devise the initial set of those values
-
-Finally, just by sitting here and thinking through a lot of this and building out the model, and seeing just how
-connected it is...we are going to have be *VERY* thorough when we are changing data state, since we will need to know where
-all the connections are and update everything accordingly.
-
-ok. sleep.
- */
 
 
 

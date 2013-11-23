@@ -1,19 +1,20 @@
-package com.example
+package com.currant.ds.sport
 
 import spray.http._
 import MediaTypes._
-import com.currant.model.{SportCreateRequest, Sport}
-import org.json4s.native.Serialization.{read, write => swrite}
+import com.currant.model.Sport
+import org.json4s.native.Serialization.{write => swrite, _}
 
 import org.json4s._
-import com.currant.ds.services.SportDataService
+import com.example.DataHttpService
+import com.currant.model.SportCreateRequest
 
 // this trait defines our service behavior independently from the service actor
-trait SportService extends DataHttpService {
+trait SportEndpoint extends DataHttpService {
 
   implicit val formats = native.Serialization.formats(NoTypeHints)
 
-  val sportDataService = SportDataService(db)
+  val sportDataService = SportService(db)
 
   val sportRoute =
     pathPrefix("sports") {
@@ -24,22 +25,22 @@ trait SportService extends DataHttpService {
           }
         }
       } ~
-      put {
-        respondWithMediaType(`application/json`) {
-          entity(as[String]) { sport =>
-            complete {
-              val sportObj = read[SportCreateRequest](sport)
-              swrite(sportDataService.create(sportObj))
-            }
-          }
-        }
-      } ~
       post {
         respondWithMediaType(`application/json`) {
           entity(as[String]) { sport =>
             complete {
               val sportObj = read[Sport](sport)
               swrite(sportDataService.update(sportObj))
+            }
+          }
+        }
+      } ~
+      put {
+        respondWithMediaType(`application/json`) {
+          entity(as[String]) { sport =>
+            complete {
+              val sportObj = read[SportCreateRequest](sport)
+              swrite(sportDataService.create(sportObj))
             }
           }
         }

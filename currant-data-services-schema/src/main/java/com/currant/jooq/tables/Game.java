@@ -11,7 +11,7 @@ package com.currant.jooq.tables;
 @java.lang.SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Game extends org.jooq.impl.TableImpl<com.currant.jooq.tables.records.GameRecord> {
 
-	private static final long serialVersionUID = 1943838665;
+	private static final long serialVersionUID = 1703216488;
 
 	/**
 	 * The singleton instance of <code>public.game</code>
@@ -85,6 +85,26 @@ public class Game extends org.jooq.impl.TableImpl<com.currant.jooq.tables.record
 	 * The column <code>public.game.status</code>. 
 	 */
 	public final org.jooq.TableField<com.currant.jooq.tables.records.GameRecord, java.lang.String> STATUS = createField("status", org.jooq.impl.SQLDataType.VARCHAR.length(10), this);
+
+	/**
+	 * The column <code>public.game.image_url</code>. 
+	 */
+	public final org.jooq.TableField<com.currant.jooq.tables.records.GameRecord, java.lang.String> IMAGE_URL = createField("image_url", org.jooq.impl.SQLDataType.VARCHAR.length(1024), this);
+
+	/**
+	 * The column <code>public.game.active</code>. 
+	 */
+	public final org.jooq.TableField<com.currant.jooq.tables.records.GameRecord, java.lang.Boolean> ACTIVE = createField("active", org.jooq.impl.SQLDataType.BOOLEAN, this);
+
+	/**
+	 * The column <code>public.game.min_players</code>. 
+	 */
+	public final org.jooq.TableField<com.currant.jooq.tables.records.GameRecord, java.lang.Integer> MIN_PLAYERS = createField("min_players", org.jooq.impl.SQLDataType.INTEGER, this);
+
+	/**
+	 * The column <code>public.game.max_players</code>. 
+	 */
+	public final org.jooq.TableField<com.currant.jooq.tables.records.GameRecord, java.lang.Integer> MAX_PLAYERS = createField("max_players", org.jooq.impl.SQLDataType.INTEGER, this);
 
 	/**
 	 * The column <code>public.game.waitlist_strategy</code>. 
