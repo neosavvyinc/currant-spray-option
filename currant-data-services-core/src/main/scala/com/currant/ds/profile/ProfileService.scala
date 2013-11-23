@@ -38,7 +38,7 @@ object ProfileService {
   def apply(db : DB)(implicit ec : ExecutionContext) = new ProfileService {
     def findProfile(id: Float): Profile = {
 
-      return new Profile(1,
+      new Profile(1,
       1,
       new Currant,
       "SourceId",
