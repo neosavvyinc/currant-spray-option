@@ -34,6 +34,10 @@ object GameCRUD {
     }
   }
 
+  def update(id: Long, game: Game)(ctx: DSLContext): Unit = {
+    Unit
+  }
+
   def fromRecord(r: Record): Game = {
     Game(
       r.getValue(GAME.GAME_ID),

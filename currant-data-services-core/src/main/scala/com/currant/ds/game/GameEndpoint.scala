@@ -18,14 +18,14 @@ trait GameEndpoint extends DataHttpService {
   import GameEndpointProtocol._
 
   val gameDataService = GameService(db)
+  val games = "games"
 
   val gameRoute =
-    pathPrefix("games") {
+    path(games) {
       get {
         respondWithMediaType(`application/json`) {
           complete {
-            //gameDataService.getAll
-            HttpResponse(200)
+            gameDataService.getAll
           }
         }
       } ~
@@ -37,32 +37,30 @@ trait GameEndpoint extends DataHttpService {
             }
           }
         }
+      }
+    } ~
+    path(games / IntNumber) { id =>
+      get {
+        respondWithMediaType(`application/json`) {
+          complete(gameDataService.get(id))
+        }
       } ~
-        path(IntNumber) { id =>
-          get {
-            respondWithMediaType(`application/json`) {
-              complete {
-                gameDataService.get(id)
-              }
-            }
-          } ~
-          put {
-            respondWithMediaType(`application/json`) {
-              entity(as[GameCreateRequest]) { game =>
-                complete {
-                  gameDataService.update(game)
-                }
-              }
-            }
-          } ~
-          delete {
-             respondWithMediaType(`application/json`) {
-              complete {
-                gameDataService.delete(List(id))
-                StatusCodes.OK
-              }
+      put {
+        respondWithMediaType(`application/json`) {
+          entity(as[GameCreateRequest]) { gameCreateRequest =>
+            complete {
+              gameDataService.update(id, gameCreateRequest)
             }
           }
         }
+      } ~
+      delete {
+         respondWithMediaType(`application/json`) {
+          complete {
+            gameDataService.delete(List(id))
+            StatusCodes.OK
+          }
+        }
+      }
     }
 }

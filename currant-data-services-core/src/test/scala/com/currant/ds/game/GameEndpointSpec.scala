@@ -28,17 +28,33 @@ class GameEndpointSpec extends DBAwareBaseServiceSpec with GameEndpoint {
   import GameEnpointProtocol.gameFormat
 
   "GameService" should {
-    "support return a list of games" in {
+    "return the requested games" in {
       val testGame: Game = Game(1, "calvinball, no rules", true, None, None, None)
 
       Get("/games/1") ~> gameRoute ~> check {
-        //val gamesString = responseAs[String]
-        //val game = gamesString.asJson.convertTo[Option[Game]]
-        //val game = gamesString.asJson
-        //game.get must be equalTo(testGame)
-        //game must be equalTo(testGame)
+        val gamesString = responseAs[String]
+        val game = gamesString.asJson.convertTo[Game]
+
+        game must be equalTo(testGame)
         status === OK
-        //"test" must be equalTo("test")
+      }
+    }
+    // TO DO
+    // change to Option[Game] and test if => None
+
+    "return all games" in {
+      val testGames =
+        Seq(
+          Game(1, "calvinball, no rules", true, None, None, None),
+          Game(2, "foosball", true, None, None, None)
+        )
+
+      Get("/games") ~> gameRoute ~> check {
+        val gamesString = responseAs[String]
+        val games = gamesString.asJson.convertTo[Seq[Game]]
+
+        games must be equalTo(testGames)
+        status === OK
       }
     }
   }

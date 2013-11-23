@@ -19,11 +19,11 @@ import scala.concurrent.ExecutionContext.Implicits.global
 trait GameService {
   def getAll: Future[Seq[Game]]
 
-  def get(id: Long): Future[Option[Game]]
+  def get(id: Long): Future[Game]
 
   def create(cr: GameCreateRequest): Future[Game]
 
-  def update(cr: GameCreateRequest): Future[Game]
+  def update(id: Long, cr: GameCreateRequest): Future[Game]
 
   def delete(ids: List[Long]): Future[Unit]
 }
@@ -36,15 +36,16 @@ object GameService {
 
         //db.withContext(crud.GameCRUD.list)
         //Serialization.write(Seq(Game(1, "calvinball, no rules", true, None, None, None)))
-        Seq(Game(1, "calvinball, no rules", true, None, None, None))
+        Seq(
+          Game(1, "calvinball, no rules", true, None, None, None),
+          Game(2, "foosball", true, None, None, None)
+        )
       }
     }
 
-    def get(id: Long): Future[Option[Game]] = {
+    def get(id: Long): Future[Game] = {
       future {
-        Some(
-          Game(1, "calvinball, no rules", true, None, None, None)
-        )
+        Game(1, "calvinball, no rules", true, None, None, None)
       }
     }
 
@@ -54,7 +55,7 @@ object GameService {
       }
     }
 
-    def update(cr: GameCreateRequest): Future[Game] = {
+    def update(id: Long, cr: GameCreateRequest): Future[Game] = {
       future {
         Game(1, "calvinball, no rules", true, None, None, None)
       }

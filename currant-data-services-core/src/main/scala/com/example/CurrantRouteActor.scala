@@ -19,6 +19,7 @@ class CurrantRouteActor(val db : DB) extends Actor with
       SportEndpoint with
       GameEndpoint with
       UserEndpoint {
+
   // the HttpService trait defines only one abstract member, which
   // connects the services environment to the enclosing actor or test
   def actorRefFactory = context
