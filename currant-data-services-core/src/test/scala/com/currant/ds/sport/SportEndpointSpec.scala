@@ -27,7 +27,7 @@ class SportEndpointSpec extends DBAwareBaseServiceSpec with SportEndpoint {
       Get("/sports") ~> sportRoute ~> check {
         val b = responseAs[String]
         val sports = read[List[Sport]](b)
-        sports must have size 2
+        sports must have size 5
 
       }
     }
