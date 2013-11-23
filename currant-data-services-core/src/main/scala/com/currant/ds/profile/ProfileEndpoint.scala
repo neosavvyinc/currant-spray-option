@@ -3,7 +3,6 @@ package com.currant.ds.profile
 import spray.http._
 import MediaTypes._
 
-import com.example.DataHttpService
 import org.json4s.{ShortTypeHints}
 import org.json4s.native.Serialization.{write => swrite, _}
 import org.json4s.native.Serialization
@@ -13,6 +12,7 @@ import com.currant.model.Night
 import com.currant.model.Currant
 import com.currant.model.Facebook
 import org.json4s.ShortTypeHints
+import com.currant.ds.DataHttpService
 
 
 /**

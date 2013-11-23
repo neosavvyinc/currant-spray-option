@@ -1,4 +1,4 @@
-package com.example
+package com.currant.ds
 
 import spray.routing.HttpService
 import com.currant.ds.db.DB

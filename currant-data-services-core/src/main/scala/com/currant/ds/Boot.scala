@@ -1,9 +1,9 @@
-package com.example
+package com.currant.ds
 
-import akka.actor.{ActorSystem, Props}
+import akka.actor.{Props, ActorSystem}
 import akka.io.IO
 import spray.can.Http
-import com.currant.ds.DSConfiguration
+import com.currant.ds.{CurrantRouteActor, DSConfiguration}
 import com.currant.ds.db.DB
 import com.jolbox.bonecp.{BoneCP, BoneCPConfig}
 import com.jolbox.bonecp
