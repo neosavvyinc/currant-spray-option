@@ -8,7 +8,7 @@
     <meta name="author" content="">
     <link rel="shortcut icon" href="../bower_components/bootstrap/docs-assets/ico/favicon.png">
 
-    <title>Carousel Template for Bootstrap</title>
+    <title>Currant API Docs</title>
 
     <!-- Bootstrap core CSS -->
     <link href="../bower_components/bootstrap/dist/css/bootstrap.css" rel="stylesheet">
@@ -44,9 +44,10 @@
                 </div>
                 <div class="navbar-collapse collapse">
                     <ul class="nav navbar-nav">
-                        <li class="active"><a href="#">Home</a></li>
-                        <li><a href="#about">About</a></li>
-                        <li><a href="#contact">Contact</a></li>
+                        <li><a href="#profile">Profiles</a></li>
+                        <li><a href="#user">Users</a></li>
+                        <li><a href="#game">Games</a></li>
+                        <li><a href="#ci">CI</a></li>
                     </ul>
                 </div>
             </div>
@@ -64,20 +65,21 @@
         <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
         <li data-target="#myCarousel" data-slide-to="1"></li>
         <li data-target="#myCarousel" data-slide-to="2"></li>
+        <li data-target="#myCarousel" data-slide-to="3"></li>
     </ol>
     <div class="carousel-inner">
         <div class="item active">
-            <img data-src="holder.js/900x500/auto/#777:#7a7a7a/text:First slide" alt="First slide">
+            <img data-src="holder.js/300x300/auto/#777:#7a7a7a/text:profileficated" alt="profileficated">
             <div class="container">
                 <div class="carousel-caption">
-                    <h1>Profile Service!!!!</h1>
+                    <h1>Profile Service</h1>
                     <p>We have completed some of the profile service</p>
                     <p><a class="btn btn-lg btn-primary" href="#" role="button">Click here to see API Docs</a></p>
                 </div>
             </div>
         </div>
         <div class="item">
-            <img data-src="holder.js/900x500/auto/#666:#6a6a6a/text:Second slide" alt="Second slide">
+            <img data-src="holder.js/300x300/auto/#666:#6a6a6a/text:userfied" alt="userfied">
             <div class="container">
                 <div class="carousel-caption">
                     <h1>User Service</h1>
@@ -87,7 +89,7 @@
             </div>
         </div>
         <div class="item">
-            <img data-src="holder.js/900x500/auto/#555:#5a5a5a/text:Third slide" alt="Third slide">
+            <img data-src="holder.js/300x300/auto/#555:#5a5a5a/text:gameification" alt="gameification">
             <div class="container">
                 <div class="carousel-caption">
                     <h1>Game Service</h1>
@@ -97,12 +99,12 @@
             </div>
         </div>
         <div class="item">
-            <img data-src="holder.js/900x500/auto/#555:#5a5a5a/text:Fourth slide" alt="Fourth slide">
+            <img data-src="holder.js/300x300/auto/#444:#5a5a5a/text:welcome to the continuous zone" alt="welcome to the continuous zone">
             <div class="container">
                 <div class="carousel-caption">
                     <h1>Continuous Integration</h1>
-                    <p>We have completed some of the Game Service</p>
-                    <p><a class="btn btn-lg btn-primary" href="#" role="button">Continuous Integration is now Up!</a></p>
+                    <p>We have a continuously built system to keep an eye on our work</p>
+                    <p><a class="btn btn-lg btn-primary" href="./#ci" role="button">Continuous Integration is now Up!</a></p>
                 </div>
             </div>
         </div>
@@ -122,19 +124,19 @@
 
     <!-- START THE FEATURETTES -->
 
-    <hr class="featurette-divider">
+    <hr id="profile" class="featurette-divider">
 
     <ng-include src="'profile/profile-service-ptl.html'"></ng-include>
 
-    <hr class="featurette-divider">
+    <hr id="user" class="featurette-divider">
 
     <ng-include src="'user/user-service-ptl.html'"></ng-include>
 
-    <hr class="featurette-divider">
+    <hr id="game" class="featurette-divider">
 
     <ng-include src="'game/game-service-ptl.html'"></ng-include>
 
-    <hr class="featurette-divider">
+    <hr id="ci" class="featurette-divider">
 
     <ng-include src="'ci/ci-ptl.html'"></ng-include>
 
