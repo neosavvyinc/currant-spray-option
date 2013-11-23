@@ -1,2 +1,2 @@
 
-sbt clean compile "test-only -- junitxml"
+sbt clean compile "test-only"
