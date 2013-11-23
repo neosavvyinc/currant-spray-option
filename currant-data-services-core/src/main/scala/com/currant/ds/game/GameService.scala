@@ -17,7 +17,7 @@ import scala.concurrent.ExecutionContext.Implicits.global
  */
 
 trait GameService {
-  def getAll: Future[GamesList]
+  def getAll: Future[Seq[Game]]
 
   def get(id: Long): Future[Option[Game]]
 
@@ -31,9 +31,12 @@ trait GameService {
 object GameService {
   def apply(db: DB) = new GameService {
 
-    def getAll: Future[GamesList] = {
+    def getAll: Future[Seq[Game]] = {
       future {
-        db.withContext(crud.GameCRUD.list)
+
+        //db.withContext(crud.GameCRUD.list)
+        //Serialization.write(Seq(Game(1, "calvinball, no rules", true, None, None, None)))
+        Seq(Game(1, "calvinball, no rules", true, None, None, None))
       }
     }
 

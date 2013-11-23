@@ -1,17 +1,21 @@
 package com.currant.ds.game
 
 import spray.http._
+import spray.json._
+import spray.httpx.SprayJsonSupport._
 import MediaTypes._
 import com.currant.model.{Game, GameCreateRequest}
-import org.json4s.native.Serialization.{write => swrite, _}
 
-import org.json4s._
 import com.example.DataHttpService
-//import com.currant.model.GameCreateRequest
+
+object GameEndpointProtocol extends DefaultJsonProtocol {
+  implicit val gameFormat = jsonFormat6(Game)
+  implicit val gameCreateFormat = jsonFormat5(GameCreateRequest)
+}
 
 trait GameEndpoint extends DataHttpService {
 
-  implicit val formats = native.Serialization.formats(NoTypeHints)
+  import GameEndpointProtocol._
 
   val gameDataService = GameService(db)
 
@@ -20,16 +24,16 @@ trait GameEndpoint extends DataHttpService {
       get {
         respondWithMediaType(`application/json`) {
           complete {
-            swrite(gameDataService.getAll)
+            //gameDataService.getAll
+            HttpResponse(200)
           }
         }
       } ~
       post {
         respondWithMediaType(`application/json`) {
-          entity(as[String]) { game =>
+          entity(as[GameCreateRequest]) { game =>
             complete {
-              val gameObj = read[GameCreateRequest](game)
-              swrite(gameDataService.create(gameObj))
+              gameDataService.create(game)
             }
           }
         }
@@ -38,16 +42,15 @@ trait GameEndpoint extends DataHttpService {
           get {
             respondWithMediaType(`application/json`) {
               complete {
-                swrite(gameDataService.get(id))
+                gameDataService.get(id)
               }
             }
           } ~
           put {
             respondWithMediaType(`application/json`) {
-              entity(as[String]) { game =>
+              entity(as[GameCreateRequest]) { game =>
                 complete {
-                  val gameObj = read[GameCreateRequest](game)
-                  swrite(gameDataService.update(gameObj))
+                  gameDataService.update(game)
                 }
               }
             }
