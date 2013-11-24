@@ -1,14 +1,14 @@
 package com.currant.ds.user
 
 import com.currant.ds.DBAwareBaseServiceSpec
-import com.currant.model.CurrantUserRegistration
+import com.currant.model.{InsertResponse, CurrantUserRegistration}
 import spray.json._
 import spray.httpx.SprayJsonSupport._
 import spray.http.StatusCodes._
+import com.currant.model.CurrantUserJsonImplicits._
 
 class UserEndpointSpec extends DBAwareBaseServiceSpec with UserEndpoint {
 
-  import UserEndPointProtocol._
 
   sequential
 
@@ -19,6 +19,9 @@ class UserEndpointSpec extends DBAwareBaseServiceSpec with UserEndpoint {
       val newUser = CurrantUserRegistration("guy", "awesome", "maxpayne", "guy@johnson.com", "now", Seq(1), None)
       Post("/registration", newUser) ~> userRoute ~> check {
         status == OK
+        val response = responseAs[InsertResponse]
+        response.profileId must be equalTo 1
+        response.userId must be equalTo 1
       }
 
     }

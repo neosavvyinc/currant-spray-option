@@ -1,19 +1,15 @@
 package com.currant.ds.user
 
 import spray.http.MediaTypes._
-import com.currant.model.{InsertResponse, CurrantUserRegistration}
+import com.currant.model.{CurrantUserJsonImplicits, CurrantUserRegistration}
 import spray.json._
 import spray.httpx.SprayJsonSupport._
 import com.currant.ds.DataHttpService
 
-object UserEndPointProtocol extends DefaultJsonProtocol {
-    implicit val colorFormat = jsonFormat7(CurrantUserRegistration)
-    implicit val insertFormat = jsonFormat2(InsertResponse)
-  }
 
 trait UserEndpoint extends DataHttpService {
 
-  import UserEndPointProtocol._
+  import CurrantUserJsonImplicits._
 
 
   val userService = UserService(db)

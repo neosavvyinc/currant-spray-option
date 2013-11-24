@@ -97,19 +97,19 @@ case object Disabled extends CurrantUserStatus
 
 sealed trait ProfileSource
 
-case class Facebook() extends ProfileSource
-case class Currant() extends ProfileSource
+case object Facebook extends ProfileSource
+case object Currant extends ProfileSource
 
 
 trait ProfileLevel
 
-case class Standard() extends ProfileLevel
-case class Elite() extends ProfileLevel
+case object Standard extends ProfileLevel
+case object Elite extends ProfileLevel
 
 trait ProfileTime
 
-case class EarlyMorning() extends ProfileTime
-case class Morning() extends ProfileTime
-case class Day() extends ProfileTime
-case class Evening() extends ProfileTime
-case class Night() extends ProfileTime
+case object EarlyMorning extends ProfileTime
+case object Morning extends ProfileTime
+case object Day extends ProfileTime
+case object Evening extends ProfileTime
+case object Night extends ProfileTime
