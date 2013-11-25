@@ -9,14 +9,13 @@ import com.currant.model.CurrantUserJsonImplicits._
 
 class UserEndpointSpec extends DBAwareBaseServiceSpec with UserEndpoint {
 
-
   sequential
 
-  override def dbScripts: Set[String] = Set("/sql/sport/register.sql")
+ // override def dbScripts: Set[String] = Set("/sql/sport/register.sql")
 
   "User Service" should {
     "be able to register a user without facebook" in {
-      val newUser = CurrantUserRegistration("guy", "awesome", "maxpayne", "guy@johnson.com", "now", Seq(1), None)
+      val newUser = CurrantUserRegistration("guy", "awesome", "maxpayne", "guy@johnson.com", "now", Seq.empty, None)
       Post("/registration", newUser) ~> userRoute ~> check {
         status == OK
         val response = responseAs[InsertResponse]
@@ -26,15 +25,15 @@ class UserEndpointSpec extends DBAwareBaseServiceSpec with UserEndpoint {
 
     }
 
-  /*  "fail if registering a user with a duplicate email" in {
-      val newUser = CurrantUserRegistration("guy", "awesome", "maxpayne", "guy@johnson.com", "now", Seq(1), None)
+    "fail if registering a user with a duplicate email" in {
+      val newUser = CurrantUserRegistration("guy", "awesome", "maxpayne", "guy@johnson.com", "now", Seq.empty, None)
       Post("/registration", newUser) ~> userRoute ~> check {
         status == OK
       }
       Post("/registration", newUser) ~> userRoute ~> check {
         status == InternalServerError
       }
-    }*/
+    }
   }
 
 }
