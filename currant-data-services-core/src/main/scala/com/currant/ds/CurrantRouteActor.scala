@@ -1,7 +1,6 @@
 package com.currant.ds
 
 import akka.actor.{Props, Actor}
-import org.json4s.{NoTypeHints, native}
 import com.currant.ds.db.DB
 import com.currant.ds.sport.SportEndpoint
 import com.currant.ds.user.UserEndpoint
