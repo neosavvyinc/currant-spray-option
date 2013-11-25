@@ -52,18 +52,27 @@ class SportEndpointSpec extends DBAwareBaseServiceSpec with SportEndpoint {
  
      }*/
 
-    /*"allow a get with id to return one sport that matches the id" in {
+    "allow a get with id to return one sport that matches the id" in {
       val testSport = sportCreateReq("Target Practice", "With them thar guns")
-      Put ("/sports", testSport) ~> sportRoute ~> check {}
+      Put("/sports", testSport) ~> sportRoute ~> check {}
 
-      Get("/sports/2000") ~> sportRoute ~> check {
+      Get("/sports/1") ~> sportRoute ~> check {
         status == OK
         val sport = responseAs[Sport]
         sport.name must be equalTo testSport.name
       }
-    }*/
+    }
+
+    //TODO:  how to handle inactive sports?
+    "return a 404 if requesting a sport that is not found" in {
+      Get("/sports/1000") ~> sportRoute ~> check {
+        status == NotFound
+      }
+    }
 
     "support a delete which should simply return ok" in {
+      val testSport = sportCreateReq("Target Practice", "With them thar guns")
+      Put("/sports", testSport) ~> sportRoute ~> check {}
       Delete("/sports/1") ~> sportRoute ~> check {
         status == OK
       }

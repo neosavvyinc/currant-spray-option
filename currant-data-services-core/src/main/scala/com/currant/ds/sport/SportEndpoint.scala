@@ -14,7 +14,7 @@ trait SportEndpoint extends DataHttpService{
   val sportDataService = SportService(db)
 
   val sportRoute =
-    pathPrefix("sports") {
+    path("sports") {
       get {
         respondWithMediaType(`application/json`) {
           complete {
@@ -39,24 +39,24 @@ trait SportEndpoint extends DataHttpService{
             }
           }
         }
-      } ~
-      path(IntNumber) { id =>
-        get {
-          respondWithMediaType(`application/json`) {
-            complete {
-              sportDataService.get(id)
-            }
-          }
-        } ~
-        delete {
-          respondWithMediaType(`application/json`) {
-            complete {
-              sportDataService.delete(List(id))
-              StatusCodes.OK
-            }
+      }
+    } ~
+    pathPrefix("sports" / IntNumber) { id =>
+      get {
+        respondWithMediaType(`application/json`) {
+          complete {
+            sportDataService.get(id)
           }
         }
-
+      } ~
+      delete {
+        respondWithMediaType(`application/json`) {
+          complete {
+            sportDataService.delete(List(id))
+            StatusCodes.OK
+          }
+        }
       }
     }
+
 }
