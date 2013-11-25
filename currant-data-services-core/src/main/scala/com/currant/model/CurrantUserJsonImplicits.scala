@@ -2,7 +2,6 @@ package com.currant.model
 
 import spray.json._
 
-
 //order matters
 object CurrantUserJsonImplicits extends DefaultJsonProtocol {
 
@@ -18,7 +17,6 @@ object CurrantUserJsonImplicits extends DefaultJsonProtocol {
         case Facebook => facebook
         case Currant => currant
       }
-
 
     def read(json: JsValue): ProfileSource = json match {
       case `facebook` => Facebook
@@ -41,7 +39,6 @@ object CurrantUserJsonImplicits extends DefaultJsonProtocol {
       case `standard` => Standard
       case `elite`    => Elite
       case _          => deserializationError(s" json $json is not a valid ProfileLevel")
-
     }
   }
 

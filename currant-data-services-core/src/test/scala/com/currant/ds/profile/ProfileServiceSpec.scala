@@ -1,11 +1,12 @@
 package com.currant.ds.profile
 
 import com.currant.ds.DBAwareBaseServiceSpec
-import com.currant.model.{CurrantUserJsonImplicits, Profile}
+import com.currant.model._
 import spray.json._
 import spray.httpx.SprayJsonSupport._
 import spray.http.StatusCodes._
 import CurrantUserJsonImplicits._
+import com.currant.model.Profile
 
 /**
  * Created by Neosavvy - test1
@@ -25,6 +26,9 @@ object ProfileServiceSpec extends DBAwareBaseServiceSpec with ProfileEndpoint {
         status == OK
         val profile = responseAs[Profile]
         profile.id must be equalTo 1
+        profile.preferredTime must be equalTo EarlyMorning
+        profile.profileLevel must be equalTo Elite
+        profile.source must be equalTo Currant
       }
     }
   }

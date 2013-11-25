@@ -2,7 +2,6 @@ package com.currant.ds.game
 
 import spray.http._
 import spray.json._
-import spray.httpx.SprayJsonSupport._
 import MediaTypes._
 import com.currant.model.{Game, GameCreateRequest}
 

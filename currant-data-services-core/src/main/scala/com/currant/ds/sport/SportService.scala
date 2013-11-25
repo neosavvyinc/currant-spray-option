@@ -11,7 +11,7 @@ trait SportService {
 
   def getAll: Seq[Sport]
 
-  def get(id : Long) : Option[Sport]
+  def get(id: Long): Option[Sport]
 
   def delete(ids: List[Long]): Unit
 
@@ -24,7 +24,7 @@ object SportService {
     def create(cr: SportCreateRequest): Sport = {
       val partiallyApplied = SportCRUD.create(cr) _
       val id = db.withTransactionContext(partiallyApplied)
-      Sport.from(id, cr)
+      toSport(id, cr)
     }
 
     def getAll: Seq[Sport] = {
@@ -32,7 +32,7 @@ object SportService {
     }
 
     def get(id: Long): Option[Sport] = {
-     db.withContext(SportCRUD.byId(id))
+      db.withContext(SportCRUD.byId(id))
     }
 
     def delete(ids: List[Long]): Unit = {
@@ -45,6 +45,10 @@ object SportService {
       db.withTransactionContext(partiallyApplied)
       sport
     }
+  }
+
+  private def toSport(id: Long, cr: SportCreateRequest): Sport = {
+    Sport(id, cr.name, cr.description, cr.active, cr.imageUrl, cr.minPlayers, cr.maxPlayers, cr.waitList)
   }
 
 }

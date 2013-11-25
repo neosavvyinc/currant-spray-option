@@ -6,7 +6,6 @@ import MediaTypes._
 import com.currant.ds.DataHttpService
 import com.currant.model.CurrantUserJsonImplicits
 import spray.json._
-import spray.httpx.SprayJsonSupport._
 
 /**
  * Created by Neosavvy

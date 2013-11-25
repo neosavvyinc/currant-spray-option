@@ -35,6 +35,4 @@ ProfileEndpoint {
         userRoute ~
          profileRoute
   )
-
-  override implicit val formats = native.Serialization.formats(NoTypeHints)
 }

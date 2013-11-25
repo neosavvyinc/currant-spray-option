@@ -3,7 +3,6 @@ package com.currant.ds.user
 import spray.http.MediaTypes._
 import com.currant.model.{CurrantUserJsonImplicits, CurrantUserRegistration}
 import spray.json._
-import spray.httpx.SprayJsonSupport._
 import com.currant.ds.DataHttpService
 
 
