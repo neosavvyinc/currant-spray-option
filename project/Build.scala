@@ -42,7 +42,6 @@ object Build extends sbt.Build {
               settings = Seq(libraryDependencies ++=
                 Shared.Spray ++
                 Shared.Akka ++
-                /*Shared.Json4s ++*/
                 Shared.BoneCP ++
                 Shared.Other) ++ Revolver.settings
              ) dependsOn schema
@@ -69,7 +68,6 @@ object Shared {
   val JooqVersion = "3.1.0"
   val AkkaVersion = "2.1.4"
   val SprayVersion = "1.1-RC3"
- /* val Json4sVersion = "3.2.2"*/
 
   val Jooq = Seq(
     "org.jooq" % "jooq" % JooqVersion,
@@ -89,10 +87,6 @@ object Shared {
     "com.typesafe.akka"   %%  "akka-testkit"  % AkkaVersion
   )
 
- /* val Json4s = Seq (
-    "org.json4s"          %%  "json4s-native" % Json4sVersion
-  )
-*/
   val PostgreSQL = "postgresql" % "postgresql" % "9.1-901.jdbc4"
 
   val BoneCP = Seq("com.jolbox" % "bonecp" % "0.8.0.RELEASE")
