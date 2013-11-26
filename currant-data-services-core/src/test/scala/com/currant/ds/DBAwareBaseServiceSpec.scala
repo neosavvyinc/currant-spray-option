@@ -24,7 +24,14 @@ trait DBAwareBaseServiceSpec extends Specification with DSConfiguration with Spe
 
   def dbScripts: Set[String] = Set.empty
 
-  def db: DB = {
+
+  override def cleanUp(): Unit = {
+    super.cleanUp()
+    bcp.close()
+    bcp.shutdown()
+  }
+
+  private val bcp = {
     val bcpCfg = new BoneCPConfig()
     bcpCfg.setUser(DBConfig.userName)
     bcpCfg.setPassword(DBConfig.password)
@@ -32,23 +39,23 @@ trait DBAwareBaseServiceSpec extends Specification with DSConfiguration with Spe
     bcpCfg.setDefaultAutoCommit(false)
     bcpCfg.setDisableJMX(true)
 
-    val bcp = new BoneCP(bcpCfg)
-
-    DB(bcp)
+    new BoneCP(bcpCfg)
   }
 
+  val db: DB = DB(bcp)
+
   def before = {
-    val bcp = setupNewConnectionPool()
+    //val bcp = setupNewConnectionPool()
     println("resetting the db...")
     executeBatch("/drop-ddl.sql", bcp)
     executeBatch("/ddl.sql", bcp)
     executeScripts(bcp)
-    bcp.close()
-    bcp.shutdown()
+   // bcp.close()
+    //bcp.shutdown()
   }
 
 
-  def setupNewConnectionPool(): BoneCP = {
+  /*def setupNewConnectionPool(): BoneCP = {
     val bcpCfg = new BoneCPConfig()
     bcpCfg.setUser(DBConfig.userName)
     bcpCfg.setPassword(DBConfig.password)
@@ -56,9 +63,9 @@ trait DBAwareBaseServiceSpec extends Specification with DSConfiguration with Spe
     bcpCfg.setDefaultAutoCommit(false)
     bcpCfg.setDisableJMX(true)
     new BoneCP(bcpCfg)
-  }
+  }*/
 
-  def executeBatch(ddl: String, bcp: BoneCP, logSql : Boolean = false) {
+  def executeBatch(ddl: String, bcp: BoneCP, logSql: Boolean = false) {
     val conn = bcp.getConnection
     try {
       println(s"executing $ddl")
@@ -67,7 +74,7 @@ trait DBAwareBaseServiceSpec extends Specification with DSConfiguration with Spe
       val queries = QueryReader.fromFile(ddl)
       queries.foreach {
         q =>
-          if(logSql) println(q)
+          if (logSql) println(q)
           val st = conn.createStatement()
           st.execute(q)
       }
@@ -86,7 +93,7 @@ trait DBAwareBaseServiceSpec extends Specification with DSConfiguration with Spe
     dbScripts.foreach(executeBatch(_, bcp, true))
   }
 
-  def executeCountForTable(table: String, bcp: BoneCP = setupNewConnectionPool): Integer = {
+  def executeCountForTable(table: String, bcp: BoneCP = bcp): Integer = {
     val sql = "SELECT COUNT(*) AS COUNT FROM " + table
     val conn = bcp.getConnection
     val rs: ResultSet = conn.createStatement.executeQuery(sql)
