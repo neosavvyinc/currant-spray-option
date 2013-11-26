@@ -25,9 +25,3 @@ case class Sport(id: Long,
                  maxPlayers: Option[Int],
                  waitList: Option[Int])
 
-object Sport {
-
-  def from(id : Long, cr : SportCreateRequest) : Sport = {
-    Sport(id, cr.name, cr.description, cr.active, cr.imageUrl, cr.minPlayers, cr.maxPlayers, cr.waitList)
-  }
-}

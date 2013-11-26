@@ -1,8 +1,10 @@
 package com.currant.ds.sport
 
 import com.currant.model._
-import org.json4s.native.Serialization.{read, write => swrite}
 import com.currant.ds.DBAwareBaseServiceSpec
+import spray.json._
+import spray.http.StatusCodes._
+import com.currant.model.SportJsonImplicits._
 
 class SportEndpointSpec extends DBAwareBaseServiceSpec with SportEndpoint {
 
@@ -11,9 +13,9 @@ class SportEndpointSpec extends DBAwareBaseServiceSpec with SportEndpoint {
   "SportService" should {
     "support inserting a new sport" in {
       val testSport = sportCreateReq("Baseball", "With a bat")
-      Put("/sports", swrite(testSport)) ~> sportRoute ~> check {
-        val resp = responseAs[String]
-        val sport = read[Sport](resp)
+      Put("/sports", testSport) ~> sportRoute ~> check {
+        status == OK
+        val sport = responseAs[Sport]
         sport.name must be equalTo testSport.name
       }
     }
@@ -23,12 +25,12 @@ class SportEndpointSpec extends DBAwareBaseServiceSpec with SportEndpoint {
       val testSport = sportCreateReq("Soccer", "With a ball")
       val testSport1 = sportCreateReq("Badminton", "Racquets")
 
-      Put("/sports", swrite(testSport)) ~> sportRoute ~> check {}
-      Put("/sports", swrite(testSport1)) ~> sportRoute ~> check {}
+      Put("/sports", testSport) ~> sportRoute ~> check {}
+      Put("/sports", testSport1) ~> sportRoute ~> check {}
 
       Get("/sports") ~> sportRoute ~> check {
-        val b = responseAs[String]
-        val sports = read[List[Sport]](b)
+        status == OK
+        val sports = responseAs[List[Sport]]
         sports must have size 2
 
       }
@@ -52,19 +54,27 @@ class SportEndpointSpec extends DBAwareBaseServiceSpec with SportEndpoint {
 
     "allow a get with id to return one sport that matches the id" in {
       val testSport = sportCreateReq("Target Practice", "With them thar guns")
-      Put ("/sports", swrite(testSport)) ~> sportRoute ~> check {}
+      Put("/sports", testSport) ~> sportRoute ~> check {}
 
       Get("/sports/1") ~> sportRoute ~> check {
-        val resp = responseAs[String]
-        val sport = read[Sport](resp)
+        status == OK
+        val sport = responseAs[Sport]
         sport.name must be equalTo testSport.name
       }
     }
 
+    //TODO:  how to handle inactive sports?
+    "return a 404 if requesting a sport that is not found" in {
+      Get("/sports/1000") ~> sportRoute ~> check {
+        status == NotFound
+      }
+    }
+
     "support a delete which should simply return ok" in {
+      val testSport = sportCreateReq("Target Practice", "With them thar guns")
+      Put("/sports", testSport) ~> sportRoute ~> check {}
       Delete("/sports/1") ~> sportRoute ~> check {
-        val resp = responseAs[String]
-        resp must be equalTo ("OK")
+        status == OK
       }
     }
   }
