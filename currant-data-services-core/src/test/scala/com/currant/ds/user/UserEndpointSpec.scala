@@ -25,15 +25,15 @@ class UserEndpointSpec extends DBAwareBaseServiceSpec with UserEndpoint {
 
     }
 
-//    "fail if registering a user with a duplicate email" in {
-//      val newUser = CurrantUserRegistration("guy", "awesome", "maxpayne", "guy@johnson.com", "now", Seq.empty, None)
-//      Post("/registration", newUser) ~> userRoute ~> check {
-//        status == OK
-//      }
-//      Post("/registration", newUser) ~> userRoute ~> check {
-//        status == InternalServerError
-//      }
-//    }
+    "fail if registering a user with a duplicate email" in {
+      val newUser = CurrantUserRegistration("guy", "awesome", "maxpayne", "guy@johnson.com", "now", Seq.empty, None)
+      Post("/registration", newUser) ~> userRoute ~> check {
+        status == OK
+      }
+      Post("/registration", newUser) ~> userRoute ~> check {
+        status == InternalServerError
+      }
+    }
   }
 
 }
