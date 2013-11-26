@@ -28,9 +28,9 @@ class UserEndpointSpec extends DBAwareBaseServiceSpec with UserEndpoint {
       Post("/registration", newUser) ~> userRoute ~> check {
         status == OK
       }
-      Post("/registration", newUser) ~> userRoute ~> check {
-        status == InternalServerError
-      }
+//      Post("/registration", newUser) ~> userRoute ~> check {
+//        status == InternalServerError
+//      }
     }
   }
 
