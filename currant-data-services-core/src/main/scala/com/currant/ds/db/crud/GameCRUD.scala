@@ -1,7 +1,7 @@
 package com.currant.ds.db.crud
 
-import com.currant.model.{Game, GameCreateRequest}
-import org.jooq.{Record, DSLContext}
+import com.currant.model.{ Game, GameCreateRequest }
+import org.jooq.{ Record, DSLContext }
 import com.currant.jooq.tables.Game.GAME
 import scala.collection.JavaConversions._
 

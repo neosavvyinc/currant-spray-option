@@ -1,9 +1,8 @@
 package com.currant.ds.sport
 
 import com.currant.ds.db.DB
-import com.currant.model.{Sport, SportCreateRequest}
+import com.currant.model.{ Sport, SportCreateRequest }
 import com.currant.ds.db.crud.SportCRUD
-
 
 trait SportService {
 
@@ -52,7 +51,4 @@ object SportService {
   }
 
 }
-
-
-
 

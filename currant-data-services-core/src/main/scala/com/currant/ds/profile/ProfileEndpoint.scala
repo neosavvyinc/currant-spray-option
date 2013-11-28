@@ -16,27 +16,26 @@ import spray.json._
  */
 trait ProfileEndpoint extends DataHttpService {
 
-
   import CurrantUserJsonImplicits._
 
   val profileDataService = ProfileService(db)
 
-//  ~
-//
-//    /**
-//     *
-//     */
-//    path("extended" / IntNumber) { id =>
-//      get {
-//        respondWithMediaType(`application/json`) {
-//          complete {
-//            val profileObject = profileDataService.findExtendedProfile( id )
-//            swrite(profileObject)
-//          }
-//        }
-//
-//      }
-//    }
+  //  ~
+  //
+  //    /**
+  //     *
+  //     */
+  //    path("extended" / IntNumber) { id =>
+  //      get {
+  //        respondWithMediaType(`application/json`) {
+  //          complete {
+  //            val profileObject = profileDataService.findExtendedProfile( id )
+  //            swrite(profileObject)
+  //          }
+  //        }
+  //
+  //      }
+  //    }
 
   val profileRoute =
     pathPrefix("profile") {
@@ -48,7 +47,7 @@ trait ProfileEndpoint extends DataHttpService {
         get {
           respondWithMediaType(`application/json`) {
             complete {
-               profileDataService.findProfile(id)
+              profileDataService.findProfile(id)
             }
           }
         }

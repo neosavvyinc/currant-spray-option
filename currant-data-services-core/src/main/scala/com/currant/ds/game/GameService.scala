@@ -1,8 +1,8 @@
 package com.currant.ds.game
 
-import com.currant.ds.db.{DB, crud}
-import scala.concurrent.{Future, future}
-import com.currant.model.{Game, GameCreateRequest }
+import com.currant.ds.db.{ DB, crud }
+import scala.concurrent.{ Future, future }
+import com.currant.model.{ Game, GameCreateRequest }
 import com.currant.model.GameTypes._
 import org.jooq.DSLContext
 

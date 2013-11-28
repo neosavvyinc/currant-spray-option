@@ -1,6 +1,5 @@
 package com.currant.model
 
-
 /*
  firstName: "",
 #   lastName: "",
@@ -11,19 +10,19 @@ package com.currant.model
 #   facebookId: ""
  */
 
-case class CurrantUserRegistration(firstName : String,
-                                   lastName : String,
-                                   password : String,
-                                   email : String,
-                                   favoriteTimeToPlay : String,
-                                   favoriteSports : Seq[Long],
-                                   facebookId : Option[String])
+case class CurrantUserRegistration(firstName: String,
+  lastName: String,
+  password: String,
+  email: String,
+  favoriteTimeToPlay: String,
+  favoriteSports: Seq[Long],
+  facebookId: Option[String])
 
-case class CurrantUserInsert(email : String,
-                             saltyHash : String,
-                             accountStatus : CurrantUserStatus,
-                             subscriberType :String ,
-                             active :Boolean)
+case class CurrantUserInsert(email: String,
+  saltyHash: String,
+  accountStatus: CurrantUserStatus,
+  subscriberType: String,
+  active: Boolean)
 
 /*
 profile: {
@@ -44,23 +43,23 @@ profile: {
        news_promotions_notification: ""
    },
  */
-case class Profile(id : Long,
-                   userId : Long,
-                   source : ProfileSource,
-                   sourceIdentifier : String,
-                   firstName : String,
-                   lastName: String,
-                   image : String,
-                   bio : String,
-                   city : String,
-                   state : String,
-                   country : String,
-                   profileLevel : ProfileLevel,
-                   preferredTime : ProfileTime,
-                   locationEnabled : Boolean,
-                   newGameNotificationEnabled : Boolean,
-                   friendActivityNotificationEnabled : Boolean,
-                   newsPromotionsNotificationEnabled : Boolean)
+case class Profile(id: Long,
+  userId: Long,
+  source: ProfileSource,
+  sourceIdentifier: String,
+  firstName: String,
+  lastName: String,
+  image: String,
+  bio: String,
+  city: String,
+  state: String,
+  country: String,
+  profileLevel: ProfileLevel,
+  preferredTime: ProfileTime,
+  locationEnabled: Boolean,
+  newGameNotificationEnabled: Boolean,
+  friendActivityNotificationEnabled: Boolean,
+  newsPromotionsNotificationEnabled: Boolean)
 
 /*
 extendedProfile: {
@@ -72,22 +71,22 @@ extendedProfile: {
    number_of_games_saved: "",//read only
 }
  */
-case class ExtendedProfile(numberOfClubs : Long,
-                           numberOfFriends : Long,
-                           numberOfCheckins : Long,
-                           numberOfGamesJoined : Long,
-                           numberOfGamesCreated : Long,
-                           numberOfGamesSaved : Long)
+case class ExtendedProfile(numberOfClubs: Long,
+  numberOfFriends: Long,
+  numberOfCheckins: Long,
+  numberOfGamesJoined: Long,
+  numberOfGamesCreated: Long,
+  numberOfGamesSaved: Long)
 
-case class ProfileInsert(userId : Long,
-                         source : ProfileSource,
-                         sourceIdentifier : String,
-                         firstName : String,
-                         lastName : String,
-                         profileLevel : ProfileLevel,
-                         preferredTime : String)
+case class ProfileInsert(userId: Long,
+  source: ProfileSource,
+  sourceIdentifier: String,
+  firstName: String,
+  lastName: String,
+  profileLevel: ProfileLevel,
+  preferredTime: String)
 
-case class InsertResponse(userId : Long, profileId : Long)
+case class InsertResponse(userId: Long, profileId: Long)
 
 sealed trait CurrantUserStatus
 
@@ -99,7 +98,6 @@ sealed trait ProfileSource
 
 case object Facebook extends ProfileSource
 case object Currant extends ProfileSource
-
 
 trait ProfileLevel
 

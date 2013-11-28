@@ -1,6 +1,6 @@
 package com.currant.ds
 
-import java.sql.{BatchUpdateException, SQLException, Connection}
+import java.sql.{ BatchUpdateException, SQLException, Connection }
 import org.jooq.DSLContext
 import com.jolbox.bonecp.BoneCP
 import org.jooq.impl.DSL
@@ -31,14 +31,14 @@ package object db {
 
   object DB {
 
-    final case class Config(uri : String, username : String, password : String)
+    final case class Config(uri: String, username: String, password: String)
 
-    def apply(bonecp : BoneCP) = new DB {
+    def apply(bonecp: BoneCP) = new DB {
       def withConnection[T](f: (Connection) => T): T = {
         val c = bonecp.getConnection
         try {
           f(c)
-        }finally {
+        } finally {
           c.close()
         }
       }
@@ -47,13 +47,13 @@ package object db {
         val c = bonecp.getConnection
         try {
           val results = f(c)
-          if(!c.getAutoCommit) {
+          if (!c.getAutoCommit) {
             c.commit()
           }
           results
-        }catch {
-          case e : Exception => c.rollback(); throw e
-        }finally {
+        } catch {
+          case e: Exception => c.rollback(); throw e
+        } finally {
           c.close()
         }
       }

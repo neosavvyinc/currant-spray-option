@@ -8,8 +8,8 @@ import com.currant.model.ExtendedProfile
 
 trait ProfileService {
 
-  def findProfile( id : Float ) : Profile
-  def findExtendedProfile( id : Float ) : ExtendedProfile
+  def findProfile(id: Float): Profile
+  def findExtendedProfile(id: Float): ExtendedProfile
 
 }
 
@@ -35,32 +35,30 @@ object ProfileService {
    * POST          /profiles/:id/games          controllers.Profiles.updateGames(id: Float)
    */
 
-  def apply(db : DB)(implicit ec : ExecutionContext) = new ProfileService {
+  def apply(db: DB)(implicit ec: ExecutionContext) = new ProfileService {
     def findProfile(id: Float): Profile = {
 
       new Profile(1,
-      1,
-      Currant,
-      "SourceId",
-      "Adam",
-      "Parrish",
-      "/somewhere/in/the/file/system",
-      "Blamo he lives",
-      "Sanford",
-      "NC",
-      "USofA",
-      Elite,
-      EarlyMorning,
-      true,
-      false,
-      false,
-      false)
+        1,
+        Currant,
+        "SourceId",
+        "Adam",
+        "Parrish",
+        "/somewhere/in/the/file/system",
+        "Blamo he lives",
+        "Sanford",
+        "NC",
+        "USofA",
+        Elite,
+        EarlyMorning,
+        true,
+        false,
+        false,
+        false)
 
     }
 
-
     def findExtendedProfile(id: Float): ExtendedProfile = ???
   }
-
 
 }

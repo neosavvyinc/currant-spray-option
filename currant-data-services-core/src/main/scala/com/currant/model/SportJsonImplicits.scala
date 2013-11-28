@@ -2,7 +2,7 @@ package com.currant.model
 
 import spray.json._
 
-object SportJsonImplicits extends DefaultJsonProtocol{
+object SportJsonImplicits extends DefaultJsonProtocol {
 
   implicit val sportFormat = jsonFormat8(Sport)
 
