@@ -8,6 +8,7 @@ import spray.testkit.Specs2RouteTest
 import com.currant.ds.db.DB
 import com.jolbox.bonecp.{BoneCP, BoneCPConfig}
 import java.sql.ResultSet
+import com.currant.ds.framework.Logging
 
 
 /**
@@ -18,7 +19,7 @@ import java.sql.ResultSet
  * Date: 11/20/13
  * Time: 8:17 AM
  */
-trait DBAwareBaseServiceSpec extends Specification with DSConfiguration with Specs2RouteTest with BeforeExample {
+trait DBAwareBaseServiceSpec extends Specification with DSConfiguration with Specs2RouteTest with BeforeExample with Logging {
 
   def actorRefFactory = system
 
@@ -39,7 +40,7 @@ trait DBAwareBaseServiceSpec extends Specification with DSConfiguration with Spe
 
   def before = {
     val bcp = setupNewConnectionPool()
-    println("resetting the db...")
+    log.debug("resetting the db...")
     executeBatch("/drop-ddl.sql", bcp)
     executeBatch("/ddl.sql", bcp)
     executeScripts(bcp)
@@ -58,16 +59,16 @@ trait DBAwareBaseServiceSpec extends Specification with DSConfiguration with Spe
     new BoneCP(bcpCfg)
   }
 
-  def executeBatch(ddl: String, bcp: BoneCP, logSql : Boolean = false) {
+  def executeBatch(ddl: String, bcp: BoneCP) {
     val conn = bcp.getConnection
     try {
-      println(s"executing $ddl")
+      log.debug(s"executing $ddl")
 
       conn.setAutoCommit(false)
       val queries = QueryReader.fromFile(ddl)
       queries.foreach {
         q =>
-          if(logSql) println(q)
+          log.debug(s"executing query $q")
           val st = conn.createStatement()
           st.execute(q)
       }
@@ -75,7 +76,7 @@ trait DBAwareBaseServiceSpec extends Specification with DSConfiguration with Spe
       conn.commit()
       conn.setAutoCommit(true)
     } catch {
-      case e: Exception => println("Caught an error: " + e.toString)
+      case e: Exception => log.error("Caught an error: " + e.toString)
     } finally {
       conn.close()
     }
@@ -83,7 +84,7 @@ trait DBAwareBaseServiceSpec extends Specification with DSConfiguration with Spe
   }
 
   def executeScripts(bcp: BoneCP) {
-    dbScripts.foreach(executeBatch(_, bcp, true))
+    dbScripts.foreach(executeBatch(_, bcp))
   }
 
   def executeCountForTable(table: String, bcp: BoneCP = setupNewConnectionPool): Integer = {
