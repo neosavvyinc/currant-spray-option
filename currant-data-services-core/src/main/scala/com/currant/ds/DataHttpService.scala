@@ -8,9 +8,9 @@ import spray.httpx.SprayJsonSupport
 
 trait DataHttpService extends HttpService with SprayJsonSupport {
 
-  def db: DB
+  def db : DB
 
   //for now
-  implicit def ec: ExecutionContext = global
+  implicit def ec : ExecutionContext = global
 
 }

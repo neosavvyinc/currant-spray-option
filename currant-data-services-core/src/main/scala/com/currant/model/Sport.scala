@@ -8,20 +8,20 @@ package com.currant.model
  * Time: 3:08 PM
  */
 
-case class SportCreateRequest(name: String,
-  description: String,
-  active: Boolean,
-  imageUrl: Option[String],
-  minPlayers: Option[Int],
-  maxPlayers: Option[Int],
-  waitList: Option[Int])
+case class SportCreateRequest(name : String,
+                              description : String,
+                              active : Boolean,
+                              imageUrl : Option[String],
+                              minPlayers : Option[Int],
+                              maxPlayers : Option[Int],
+                              waitList : Option[Int])
 
-case class Sport(id: Long,
-  name: String,
-  description: String,
-  active: Boolean,
-  imageUrl: Option[String],
-  minPlayers: Option[Int],
-  maxPlayers: Option[Int],
-  waitList: Option[Int])
+case class Sport(id : Long,
+                 name : String,
+                 description : String,
+                 active : Boolean,
+                 imageUrl : Option[String],
+                 minPlayers : Option[Int],
+                 maxPlayers : Option[Int],
+                 waitList : Option[Int])
 

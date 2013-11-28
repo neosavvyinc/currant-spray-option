@@ -8,8 +8,8 @@ import com.currant.model.ExtendedProfile
 
 trait ProfileService {
 
-  def findProfile(id: Float): Profile
-  def findExtendedProfile(id: Float): ExtendedProfile
+  def findProfile(id : Float) : Profile
+  def findExtendedProfile(id : Float) : ExtendedProfile
 
 }
 
@@ -35,8 +35,8 @@ object ProfileService {
    * POST          /profiles/:id/games          controllers.Profiles.updateGames(id: Float)
    */
 
-  def apply(db: DB)(implicit ec: ExecutionContext) = new ProfileService {
-    def findProfile(id: Float): Profile = {
+  def apply(db : DB)(implicit ec : ExecutionContext) = new ProfileService {
+    def findProfile(id : Float) : Profile = {
 
       new Profile(1,
         1,
@@ -58,7 +58,7 @@ object ProfileService {
 
     }
 
-    def findExtendedProfile(id: Float): ExtendedProfile = ???
+    def findExtendedProfile(id : Float) : ExtendedProfile = ???
   }
 
 }

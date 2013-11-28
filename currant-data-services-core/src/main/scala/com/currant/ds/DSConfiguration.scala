@@ -8,10 +8,10 @@ trait DSConfiguration {
 
   object DBConfig {
     private val db = cfg.getConfig("db")
-    def userName: String = db.getString("user")
-    def password: String = db.getString("password")
-    def url: String = db.getString("url")
-    def driver: String = db.getString("driver")
+    def userName : String = db.getString("user")
+    def password : String = db.getString("password")
+    def url : String = db.getString("url")
+    def driver : String = db.getString("driver")
   }
 
 }

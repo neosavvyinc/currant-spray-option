@@ -9,18 +9,18 @@ import org.jooq.exception.DataAccessException
 package object db {
 
   trait DB {
-    def withConnection[T](f: Connection => T): T
+    def withConnection[T](f : Connection => T) : T
 
-    def withTransaction[T](f: Connection => T): T
+    def withTransaction[T](f : Connection => T) : T
 
-    def withContext[T](f: DSLContext => T): T = {
+    def withContext[T](f : DSLContext => T) : T = {
       withConnection {
         c =>
           f(DSL.using(c))
       }
     }
 
-    def withTransactionContext[T](f: DSLContext => T): T = {
+    def withTransactionContext[T](f : DSLContext => T) : T = {
       withTransaction {
         c =>
           f(DSL.using(c))
@@ -31,10 +31,10 @@ package object db {
 
   object DB {
 
-    final case class Config(uri: String, username: String, password: String)
+    final case class Config(uri : String, username : String, password : String)
 
-    def apply(bonecp: BoneCP) = new DB {
-      def withConnection[T](f: (Connection) => T): T = {
+    def apply(bonecp : BoneCP) = new DB {
+      def withConnection[T](f : (Connection) => T) : T = {
         val c = bonecp.getConnection
         try {
           f(c)
@@ -43,7 +43,7 @@ package object db {
         }
       }
 
-      def withTransaction[T](f: (Connection) => T): T = {
+      def withTransaction[T](f : (Connection) => T) : T = {
         val c = bonecp.getConnection
         try {
           val results = f(c)
@@ -52,7 +52,7 @@ package object db {
           }
           results
         } catch {
-          case e: Exception => c.rollback(); throw e
+          case e : Exception => c.rollback(); throw e
         } finally {
           c.close()
         }

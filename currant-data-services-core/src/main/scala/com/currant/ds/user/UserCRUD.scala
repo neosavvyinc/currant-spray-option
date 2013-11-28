@@ -8,11 +8,11 @@ import org.jooq.DSLContext
 
 object UserCRUD {
 
-  def emailCheck(email: String)(implicit ctx: DSLContext) = {
+  def emailCheck(email : String)(implicit ctx : DSLContext) = {
     ctx.selectOne().from(CURRANT_USER).where(CURRANT_USER.EMAIL_ADDRESS.eq(email))
   }
 
-  def insertUser(req: CurrantUserInsert)(implicit ctx: DSLContext) = {
+  def insertUser(req : CurrantUserInsert)(implicit ctx : DSLContext) = {
     ctx.insertInto(CURRANT_USER,
       CURRANT_USER.EMAIL_ADDRESS,
       CURRANT_USER.PASSWORD,
@@ -28,7 +28,7 @@ object UserCRUD {
       ).returning(CURRANT_USER.CURRANT_USER_ID).fetchOne().getCurrantUserId
   }
 
-  def insertProfile(req: ProfileInsert)(implicit ctx: DSLContext) = {
+  def insertProfile(req : ProfileInsert)(implicit ctx : DSLContext) = {
     ctx.insertInto(PROFILE,
       PROFILE.CURRANT_USER_ID,
       PROFILE.SOURCE,
@@ -48,17 +48,17 @@ object UserCRUD {
       ).returning(PROFILE.PROFILE_ID).fetchOne().getProfileId
   }
 
-  def deleteFavoriteSports(profileId: Long)(ctx: DSLContext) = {
+  def deleteFavoriteSports(profileId : Long)(ctx : DSLContext) = {
     ctx.delete(PROFILE_SPORT).where(PROFILE_SPORT.PROFILE_ID.eq(profileId))
   }
 
-  def insertFavoriteSports(profileId: Long, sports: Seq[Long])(implicit ctx: DSLContext) = {
+  def insertFavoriteSports(profileId : Long, sports : Seq[Long])(implicit ctx : DSLContext) = {
     val q = sports.zipWithIndex
     val queries = q.map(x => insertFavoriteSportQuery(profileId, x._1, x._2, ctx))
-    ctx.batch(queries: _*).execute()
+    ctx.batch(queries : _*).execute()
   }
 
-  private def insertFavoriteSportQuery(profileId: Long, sportId: Long, order: Int, ctx: DSLContext) = {
+  private def insertFavoriteSportQuery(profileId : Long, sportId : Long, order : Int, ctx : DSLContext) = {
     ctx.insertInto(PROFILE_SPORT, PROFILE_SPORT.PROFILE_ID, PROFILE_SPORT.SPORT_ID, PROFILE_SPORT.SORT_ORDER).values(profileId, sportId, order)
   }
 

@@ -10,19 +10,19 @@ import com.currant.model.CurrantUserRegistration
 
 trait UserService {
 
-  def registerUser(registrationRequest: CurrantUserRegistration): Future[InsertResponse]
+  def registerUser(registrationRequest : CurrantUserRegistration) : Future[InsertResponse]
 
 }
 
-class DuplicateUserException(message: String = "Email already in use") extends Exception(message) {
+class DuplicateUserException(message : String = "Email already in use") extends Exception(message) {
   val code = 101
 }
 
 object UserService {
 
-  def apply(db: DB)(implicit ec: ExecutionContext) = new UserService {
+  def apply(db : DB)(implicit ec : ExecutionContext) = new UserService {
 
-    def registerUser(req: CurrantUserRegistration): Future[InsertResponse] = {
+    def registerUser(req : CurrantUserRegistration) : Future[InsertResponse] = {
       future {
         db.withTransactionContext { implicit ctx =>
 

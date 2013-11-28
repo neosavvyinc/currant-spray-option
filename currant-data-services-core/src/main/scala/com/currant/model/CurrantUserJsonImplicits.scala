@@ -13,12 +13,12 @@ object CurrantUserJsonImplicits extends DefaultJsonProtocol {
     val facebook = JsString("facebook")
     val currant = JsString("currant")
 
-    def write(obj: ProfileSource): JsValue = obj match {
+    def write(obj : ProfileSource) : JsValue = obj match {
       case Facebook => facebook
       case Currant  => currant
     }
 
-    def read(json: JsValue): ProfileSource = json match {
+    def read(json : JsValue) : ProfileSource = json match {
       case `facebook` => Facebook
       case `currant`  => Currant
       case _          => deserializationError(s"json $json is not a valid ProfileSource")
@@ -30,12 +30,12 @@ object CurrantUserJsonImplicits extends DefaultJsonProtocol {
     val standard = JsString("standard")
     val elite = JsString("elite")
 
-    def write(obj: ProfileLevel): JsValue = obj match {
+    def write(obj : ProfileLevel) : JsValue = obj match {
       case Standard => standard
       case Elite    => elite
     }
 
-    def read(json: JsValue): ProfileLevel = json match {
+    def read(json : JsValue) : ProfileLevel = json match {
       case `standard` => Standard
       case `elite`    => Elite
       case _          => deserializationError(s" json $json is not a valid ProfileLevel")
@@ -50,7 +50,7 @@ object CurrantUserJsonImplicits extends DefaultJsonProtocol {
     val evening = JsString("evening")
     val night = JsString("night")
 
-    def write(obj: ProfileTime): JsValue = obj match {
+    def write(obj : ProfileTime) : JsValue = obj match {
       case EarlyMorning => earlyMorning
       case Morning      => morning
       case Day          => day
@@ -58,7 +58,7 @@ object CurrantUserJsonImplicits extends DefaultJsonProtocol {
       case Night        => night
     }
 
-    def read(json: JsValue): ProfileTime = json match {
+    def read(json : JsValue) : ProfileTime = json match {
       case `earlyMorning` => EarlyMorning
       case `morning`      => Morning
       case `day`          => Day

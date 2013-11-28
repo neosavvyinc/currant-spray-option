@@ -145,6 +145,6 @@ object Formatting {
     .setPreference(AlignSingleLineCaseStatements, true)
     .setPreference(DoubleIndentClassDeclaration, true)
     .setPreference(PreserveDanglingCloseParenthesis, true)
-    .setPreferences(AlignParameters, true)
-    .setPreferences(SpaceBeforeColon, true)
+    .setPreference(AlignParameters, true)
+    .setPreference(SpaceBeforeColon, true)
 }
