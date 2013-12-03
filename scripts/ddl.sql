@@ -24,7 +24,7 @@ CREATE TABLE PROFILE(
   profile_id BIGSERIAL PRIMARY KEY NOT NULL,
   currant_user_id BIGINT NOT NULL,
   source VARCHAR (10) NOT NULL, /*currant, facebook, etc..not sure how this will play out since not sure the rules of editting a profile if it comes from fb */
-  source_identifier VARCHAR (10) NOT NULL, /*TODO: Decide if this is the right data type */
+  source_identifier VARCHAR (256) NOT NULL, /*TODO: Decide if this is the right data type */
   first_name VARCHAR (20),
   last_name VARCHAR(20),
   image_url VARCHAR (50),
@@ -205,14 +205,3 @@ CREATE TABLE GAME_IMAGE (
   FOREIGN KEY (game_id) REFERENCES GAME(game_id),
   CONSTRAINT game_image_unique UNIQUE (game_id, image_url)
 );
-
-
-
-
-
-
-
-
-
-
-
