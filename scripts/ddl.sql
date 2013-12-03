@@ -13,8 +13,7 @@ CREATE TABLE SPORT(
 CREATE TABLE CURRANT_USER(
   currant_user_id BIGSERIAL PRIMARY KEY NOT NULL,
   email_address VARCHAR(50) NOT NULL, /* TODO: should determine max value of an email address */
-  salt VARCHAR (20) NOT NULL ,
-  password VARCHAR (100) NOT NULL, /*hashed (duh), we should come up with a nice fat number for the amount of hashes*/
+  password VARCHAR (256) NOT NULL,
   account_status VARCHAR (20) NOT NULL, /*status can represent stuff like non verified, reset password, etc */
   subscriber_type VARCHAR (20) NOT NULL, /* TODO: decide if this should be a foreign key to another table for "paid" "subscribed" etc...*/
   active BOOLEAN NOT NULL, /* active represents whether or not the user is active..might be able to tie into status */
@@ -35,10 +34,10 @@ CREATE TABLE PROFILE(
   country VARCHAR (50),
   profile_level VARCHAR (10) NOT NULL, /*elite, standard, etc*/
   preferred_time VARCHAR (10), /*preferred time to play */
-  location_enabled BOOLEAN NOT NULL ,
-  new_game_notification BOOLEAN NOT NULL,
-  friend_activity_notification BOOLEAN NOT NULL,
-  news_promotions_notification BOOLEAN NOT NULL,
+  location_enabled BOOLEAN NOT NULL DEFAULT true ,
+  new_game_notification BOOLEAN NOT NULL DEFAULT true,
+  friend_activity_notification BOOLEAN NOT NULL DEFAULT true,
+  news_promotions_notification BOOLEAN NOT NULL DEFAULT true,
   payment_receipt VARCHAR(100),
   FOREIGN KEY (currant_user_id) REFERENCES currant_user (currant_user_id)
 );
@@ -162,11 +161,8 @@ CREATE TABLE GAME (
   size INT NOT NULL,
   intensity VARCHAR(10) NOT NULL,
   description VARCHAR(200) NOT NULL,
-  status VARCHAR(10) NOT NULL, /*scheduled, in progress, cancelled, finished */
   image_url VARCHAR (1024), /* TODO: Look at URL datatype */
-  active BOOLEAN NOT NULL , /*soft deletion flag*/
-  min_players INT,
-  max_players INT,
+  status VARCHAR(10) NOT NULL, /*scheduled, in progress, cancelled, finished */
   waitlist_strategy VARCHAR(5) NOT NULL default('blast'),
   FOREIGN KEY (sport_id) REFERENCES SPORT(sport_id),
   FOREIGN KEY (club_id) REFERENCES CLUB(club_id)
@@ -208,37 +204,8 @@ CREATE TABLE GAME_IMAGE (
   sort_order INT NOT NULL,
   FOREIGN KEY (game_id) REFERENCES GAME(game_id),
   CONSTRAINT game_image_unique UNIQUE (game_id, image_url)
-)
+);
 
-/**
-What's still missing:
-- audit fields(created on, updated on, etc)  we can probably just get away with created
-on for now, but we will need to address our auditing needs.
-
-- venues are not here
-- recurring games are not here
-- checking into a game ?
-- gps coords? are these needed?
-- i broke out the profile/user table along a gray area, but with the mindset that we should somehow
-differentiate between the 2
-- feed is not addressed here, but that is because we probably won't use this
-sql store for that, and will utilize either redis or mongo
-- chat is also not covered here.
-- reiteration of question about inviting clubs to a game:
-can a user create a game and invite a club that they are not the manager of?
-- messaging is not covered in this game
-- notification preferences are simple boolean on profile for now
-- clubs have no real notion of permissions right now.  just god(creator) and serfs.
-- i added amount for games and equipment, so that a user can say "bring x of y to game z"
-- i also added photos to games..idk if we will need this.
-- we should sit down and make sure the "status" field makes sense for connections and profiles ,etc.  also devise the initial set of those values
-
-Finally, just by sitting here and thinking through a lot of this and building out the model, and seeing just how
-connected it is...we are going to have be *VERY* thorough when we are changing data state, since we will need to know where
-all the connections are and update everything accordingly.
-
-ok. sleep.
- */
 
 
 
