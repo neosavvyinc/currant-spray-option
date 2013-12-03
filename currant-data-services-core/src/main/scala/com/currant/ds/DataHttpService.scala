@@ -6,8 +6,7 @@ import scala.concurrent.ExecutionContext
 import ExecutionContext.Implicits.global
 import spray.httpx.SprayJsonSupport
 
-
-trait DataHttpService extends HttpService with SprayJsonSupport{
+trait DataHttpService extends HttpService with SprayJsonSupport {
 
   def db : DB
 

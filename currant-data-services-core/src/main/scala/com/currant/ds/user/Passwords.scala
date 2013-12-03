@@ -12,13 +12,13 @@ object Passwords {
   val saltLen = 32
   val desiredKeyLen = 256
 
-  def getSaltedHash(password: String) = {
+  def getSaltedHash(password : String) = {
     val salt = SecureRandom.getInstance("SHA1PRNG").generateSeed(saltLen)
     // store the salt with the password
     Base64.encodeBase64String(salt) + "$" + hash(password, salt)
   }
 
-  def check(password: String, stored: String): Boolean = {
+  def check(password : String, stored : String) : Boolean = {
     val saltAndPass = stored.split("\\$")
     if (saltAndPass.length != 2) {
       false
@@ -31,7 +31,7 @@ object Passwords {
 
   // using PBKDF2 from Sun, an alternative is https://github.com/wg/scrypt
   // cf. http://www.unlimitednovelty.com/2012/03/dont-use-bcrypt.html
-  private def hash(password: String, salt: Array[Byte]): String = {
+  private def hash(password : String, salt : Array[Byte]) : String = {
     val f = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1")
     val key = f.generateSecret(new PBEKeySpec(
       password.toCharArray, salt, iterations, desiredKeyLen)

@@ -1,12 +1,12 @@
 package com.currant.ds
 
-import akka.actor.{Props, ActorSystem}
+import akka.actor.{ Props, ActorSystem }
 import akka.io.IO
 import spray.can.Http
 import com.currant.ds.db.DB
-import com.jolbox.bonecp.{BoneCP, BoneCPConfig}
+import com.jolbox.bonecp.{ BoneCP, BoneCPConfig }
 
-object Boot extends App with DSConfiguration{
+object Boot extends App with DSConfiguration {
 
   // we need an ActorSystem to host our application in
   implicit val system = ActorSystem("on-spray-can")

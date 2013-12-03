@@ -2,7 +2,6 @@ package com.currant.ds
 
 import com.typesafe.config.ConfigFactory
 
-
 trait DSConfiguration {
 
   lazy val cfg = ConfigFactory.load().getConfig("com.currant.ds")

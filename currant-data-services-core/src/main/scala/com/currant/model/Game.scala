@@ -14,22 +14,22 @@ object GameTypes {
   type GamesList = Seq[Game]
 }
 
-case class Game(id: Long,
-                 //name: String,
-                 description: String,
-                 active: Boolean,
-                 imageUrl: Option[String],
-                 minPlayers: Option[Int],
-                 maxPlayers: Option[Int])
+case class Game(id : Long,
+                //name: String,
+                description : String,
+                active : Boolean,
+                imageUrl : Option[String],
+                minPlayers : Option[Int],
+                maxPlayers : Option[Int])
 
-                 // waitList: Option[Int]) ??? why Int?
+// waitList: Option[Int]) ??? why Int?
 
 case class GameCreateRequest(
-                //name: String,
-                description: String,
-                active: Boolean,
-                imageUrl: Option[String],
-                minPlayers: Option[Int],
-                maxPlayers: Option[Int])
+  //name: String,
+  description : String,
+  active : Boolean,
+  imageUrl : Option[String],
+  minPlayers : Option[Int],
+  maxPlayers : Option[Int])
 
-                // waitList: Option[Int]) ??? why Int?
+// waitList: Option[Int]) ??? why Int?

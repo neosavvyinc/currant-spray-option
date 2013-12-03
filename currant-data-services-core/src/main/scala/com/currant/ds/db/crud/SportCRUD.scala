@@ -1,7 +1,7 @@
 package com.currant.ds.db.crud
 
-import com.currant.model.{Sport, SportCreateRequest}
-import org.jooq.{Record, DSLContext}
+import com.currant.model.{ Sport, SportCreateRequest }
+import org.jooq.{ Record, DSLContext }
 import com.currant.jooq.tables.Sport.SPORT
 import scala.collection.JavaConversions._
 import com.currant.ds.framework.Logging
@@ -32,17 +32,17 @@ object SportCRUD extends Logging{
 
   def update(sport : Sport)(ctx : DSLContext) = {
     ctx.update(SPORT)
-    .set(SPORT.LABEL, sport.name)
-    .set(SPORT.DESCRIPTION, sport.description)
-    .set(SPORT.ACTIVE, sport.active : java.lang.Boolean)  //weird
-    .set(SPORT.IMAGE_URL, sport.imageUrl.orNull)
-    .set(SPORT.MAX_PLAYERS, sport.maxPlayers.toJInt)
-    .set(SPORT.MIN_PLAYERS, sport.minPlayers.toJInt)
-    .set(SPORT.WAIT_LIST_AMOUNT, sport.waitList.toJInt)
-    .where(SPORT.SPORT_ID.eq(sport.id))
+      .set(SPORT.LABEL, sport.name)
+      .set(SPORT.DESCRIPTION, sport.description)
+      .set(SPORT.ACTIVE, sport.active : java.lang.Boolean) //weird
+      .set(SPORT.IMAGE_URL, sport.imageUrl.orNull)
+      .set(SPORT.MAX_PLAYERS, sport.maxPlayers.toJInt)
+      .set(SPORT.MIN_PLAYERS, sport.minPlayers.toJInt)
+      .set(SPORT.WAIT_LIST_AMOUNT, sport.waitList.toJInt)
+      .where(SPORT.SPORT_ID.eq(sport.id))
   }
 
-  def list(ctx :DSLContext) : Seq[Sport] = {
+  def list(ctx : DSLContext) : Seq[Sport] = {
     val bla = ctx.selectFrom(SPORT).fetch()
     iterableAsScalaIterable(bla).map(fromRecord(_)).toSeq
   }
@@ -59,12 +59,12 @@ object SportCRUD extends Logging{
   def fromRecord(r : Record) : Sport = {
     debug(r.toString)
     Sport(r.getValue(SPORT.SPORT_ID),
-          r.getValue(SPORT.LABEL),
-          r.getValue(SPORT.DESCRIPTION),
-          r.getValue(SPORT.ACTIVE),
-          Option(r.getValue(SPORT.IMAGE_URL)),
-          Option(r.getValue(SPORT.MIN_PLAYERS)).map(_.toInt),
-          Option(r.getValue(SPORT.MAX_PLAYERS)).map(_.toInt),
-          Option(r.getValue(SPORT.WAIT_LIST_AMOUNT)).map(_.toInt))
+      r.getValue(SPORT.LABEL),
+      r.getValue(SPORT.DESCRIPTION),
+      r.getValue(SPORT.ACTIVE),
+      Option(r.getValue(SPORT.IMAGE_URL)),
+      Option(r.getValue(SPORT.MIN_PLAYERS)).map(_.toInt),
+      Option(r.getValue(SPORT.MAX_PLAYERS)).map(_.toInt),
+      Option(r.getValue(SPORT.WAIT_LIST_AMOUNT)).map(_.toInt))
   }
 }

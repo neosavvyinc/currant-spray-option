@@ -1,7 +1,7 @@
 package com.currant.ds.db.crud
 
-import com.currant.model.{Game, GameCreateRequest}
-import org.jooq.{Record, DSLContext}
+import com.currant.model.{ Game, GameCreateRequest }
+import org.jooq.{ Record, DSLContext }
 import com.currant.jooq.tables.Game.GAME
 import scala.collection.JavaConversions._
 
@@ -14,7 +14,7 @@ import scala.collection.JavaConversions._
 
 object GameCRUD {
 
-  def list(ctx: DSLContext): Seq[Game] = {
+  def list(ctx : DSLContext) : Seq[Game] = {
     val allGames = ctx.selectFrom(GAME).fetch()
     //iterableAsScalaIterable(allGames).map(fromRecord(_)).toSeq
 
@@ -25,20 +25,20 @@ object GameCRUD {
     Seq(Game(1, "calvinball, no rules", true, None, None, None))
   }
 
-  def byId(id: Long)(ctx: DSLContext): Option[Game] = {
+  def byId(id : Long)(ctx : DSLContext) : Option[Game] = {
     val game = ctx.selectFrom(GAME).where(GAME.GAME_ID.eq(id)).fetch()
 
     // being explicit about this while I'm learning...
-    iterableAsScalaIterable(game).headOption.map[Game] { game: Record =>
+    iterableAsScalaIterable(game).headOption.map[Game] { game : Record =>
       fromRecord(game)
     }
   }
 
-  def update(id: Long, game: Game)(ctx: DSLContext): Unit = {
+  def update(id : Long, game : Game)(ctx : DSLContext) : Unit = {
     Unit
   }
 
-  def fromRecord(r: Record): Game = {
+  def fromRecord(r : Record) : Game = {
     Game(
       r.getValue(GAME.GAME_ID),
       r.getValue(GAME.DESCRIPTION),

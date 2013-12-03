@@ -1,6 +1,5 @@
 package com.currant.model
 
-
 /*
  firstName: "",
 #   lastName: "",
@@ -22,8 +21,8 @@ case class CurrantUserRegistration(firstName : String,
 case class CurrantUserInsert(email : String,
                              saltyHash : String,
                              accountStatus : CurrantUserStatus,
-                             subscriberType :String ,
-                             active :Boolean)
+                             subscriberType : String,
+                             active : Boolean)
 
 /*
 profile: {
@@ -49,7 +48,7 @@ case class Profile(id : Long,
                    source : ProfileSource,
                    sourceIdentifier : String,
                    firstName : String,
-                   lastName: String,
+                   lastName : String,
                    image : String,
                    bio : String,
                    city : String,
@@ -99,7 +98,6 @@ sealed trait ProfileSource
 
 case object Facebook extends ProfileSource
 case object Currant extends ProfileSource
-
 
 trait ProfileLevel
 

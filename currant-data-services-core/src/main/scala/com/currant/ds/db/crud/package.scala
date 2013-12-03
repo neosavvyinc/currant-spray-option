@@ -1,6 +1,6 @@
 package com.currant.ds.db
 
-import java.lang.{Integer => JInt, Long => JLong}
+import java.lang.{ Integer => JInt, Long => JLong }
 import java.util
 import scala.collection.JavaConversions._
 package object crud {
@@ -14,6 +14,6 @@ package object crud {
   }
 
   implicit def listLongstoJlongs(l : List[Long]) : util.Collection[JLong] = {
-    l.map(x => x :JLong)
+    l.map(x => x : JLong)
   }
 }

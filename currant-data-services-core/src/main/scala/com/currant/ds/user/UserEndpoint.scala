@@ -1,15 +1,13 @@
 package com.currant.ds.user
 
 import spray.http.MediaTypes._
-import com.currant.model.{CurrantUserJsonImplicits, CurrantUserRegistration}
+import com.currant.model.{ CurrantUserJsonImplicits, CurrantUserRegistration }
 import spray.json._
 import com.currant.ds.DataHttpService
-
 
 trait UserEndpoint extends DataHttpService {
 
   import CurrantUserJsonImplicits._
-
 
   val userService = UserService(db)
 
@@ -25,6 +23,5 @@ trait UserEndpoint extends DataHttpService {
         }
       }
     }
-
 
 }
