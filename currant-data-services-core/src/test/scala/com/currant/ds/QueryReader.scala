@@ -1,6 +1,5 @@
 package com.currant.ds
 
-
 object QueryReader {
 
   def fromFile(file : String) : Seq[String] = {
