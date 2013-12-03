@@ -4,8 +4,9 @@ import com.currant.model.{Sport, SportCreateRequest}
 import org.jooq.{Record, DSLContext}
 import com.currant.jooq.tables.Sport.SPORT
 import scala.collection.JavaConversions._
+import com.currant.ds.framework.Logging
 
-object SportCRUD {
+object SportCRUD extends Logging{
 
   def create(cr : SportCreateRequest)(ctx : DSLContext) = {
     ctx.insertInto(SPORT,
@@ -56,7 +57,7 @@ object SportCRUD {
   }
 
   def fromRecord(r : Record) : Sport = {
-    println(r)
+    debug(r.toString)
     Sport(r.getValue(SPORT.SPORT_ID),
           r.getValue(SPORT.LABEL),
           r.getValue(SPORT.DESCRIPTION),

@@ -43,6 +43,7 @@ object Build extends sbt.Build {
                 Shared.Spray ++
                 Shared.Akka ++
                 Shared.BoneCP ++
+                Shared.Logging ++
                 Shared.Other) ++ Revolver.settings
              ) dependsOn schema
 
@@ -69,6 +70,7 @@ object Shared {
   val JooqVersion = "3.1.0"
   val AkkaVersion = "2.1.4"
   val SprayVersion = "1.1-RC3"
+  val LogbackVersion = "1.0.13"
 
   val Jooq = Seq(
     "org.jooq" % "jooq" % JooqVersion,
@@ -92,6 +94,11 @@ object Shared {
 
   val BoneCP = Seq("com.jolbox" % "bonecp" % "0.8.0.RELEASE")
 
+  val Logging = Seq(
+    "ch.qos.logback" % "logback-classic" % LogbackVersion,
+    "ch.qos.logback" % "logback-core" % LogbackVersion,
+    "org.slf4j" % "slf4j-api" % "1.7.5"
+  )
 
   val testDeps = Seq(
     "org.specs2"          %%  "specs2"        % "2.2.3" % "test",
