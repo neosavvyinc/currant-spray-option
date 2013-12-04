@@ -33,5 +33,4 @@ object ProfileServiceSpec extends DBAwareBaseServiceSpec with ProfileEndpoint {
     }
   }
 
-
 }

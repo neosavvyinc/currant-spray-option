@@ -79,6 +79,6 @@ class SportEndpointSpec extends DBAwareBaseServiceSpec with SportEndpoint {
     }
   }
 
-  private def sportCreateReq(name: String, descrip: String) = SportCreateRequest(name, descrip, true, None, None, None, None)
+  private def sportCreateReq(name : String, descrip : String) = SportCreateRequest(name, descrip, true, None, None, None, None)
 
 }

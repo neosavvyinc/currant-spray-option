@@ -1,17 +1,18 @@
 package com.currant.ds.user
 
 import com.currant.ds.DBAwareBaseServiceSpec
-import com.currant.model.{InsertResponse, CurrantUserRegistration}
+import com.currant.model.{ InsertResponse, CurrantUserRegistration }
 import spray.json._
 import spray.httpx.SprayJsonSupport._
 import spray.http.StatusCodes._
 import com.currant.model.CurrantUserJsonImplicits._
+import com.currant.ds.framework.httpx.{ Failure, CurrantJsonProtocol }
 
-class UserEndpointSpec extends DBAwareBaseServiceSpec with UserEndpoint {
+class UserEndpointSpec extends DBAwareBaseServiceSpec with UserEndpoint with CurrantJsonProtocol {
 
   sequential
 
- // override def dbScripts: Set[String] = Set("/sql/sport/register.sql")
+  // override def dbScripts: Set[String] = Set("/sql/sport/register.sql")
 
   "User Service" should {
     "be able to register a user without facebook" in {
@@ -31,7 +32,9 @@ class UserEndpointSpec extends DBAwareBaseServiceSpec with UserEndpoint {
         status == OK
       }
       Post("/registration", newUser) ~> userRoute ~> check {
-        status == InternalServerError
+        status == OK
+        val response = responseAs[Failure]
+        response.errorCode must be equalTo 1
       }
     }
   }

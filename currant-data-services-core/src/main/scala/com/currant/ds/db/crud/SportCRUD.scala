@@ -6,7 +6,7 @@ import com.currant.jooq.tables.Sport.SPORT
 import scala.collection.JavaConversions._
 import com.currant.ds.framework.Logging
 
-object SportCRUD extends Logging{
+object SportCRUD extends Logging {
 
   def create(cr : SportCreateRequest)(ctx : DSLContext) = {
     ctx.insertInto(SPORT,

@@ -5,9 +5,10 @@ import MediaTypes._
 import com.currant.model.{ SportJsonImplicits, Sport, SportCreateRequest }
 import spray.json._
 import com.currant.ds.DataHttpService
+import com.currant.ds.framework.httpx.CurrantResponseMarshaller
 
 // this trait defines our service behavior independently from the service actor
-trait SportEndpoint extends DataHttpService {
+trait SportEndpoint extends DataHttpService with CurrantResponseMarshaller {
 
   import SportJsonImplicits._
 
